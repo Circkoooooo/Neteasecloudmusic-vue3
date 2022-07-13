@@ -46,14 +46,15 @@
   "version": "0.0.0",
   "main": "./dist/main.js",
   "scripts": {
+    "electron:serve": "concurrently \"npm run dev\" \"npm run electron:start\"",
+    "electron:start": "electron ./main.js",
+    "electron:pkg": "electron-builder",
+    "commit": "git cz",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "electron:start": "electron ./main.js",
-    "electron:pkg": "electron-builder",
-    "electron:serve": "concurrently \"npm run dev\" \"npm run electron:start\"",
     "prepare": "husky install",
-    "lint": "eslint --cache --fix"
+    "lint": "eslint --fix"
   },
   "build": {
     "files": [
