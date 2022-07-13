@@ -1,12 +1,32 @@
 <script lang="ts" setup>
 import '~/styles/page.less';
+import SlideBar from '~/components/SlideBar/SlideBar.vue';
+
+const menuConfig = [
+	{
+		menuItem: [
+			{
+				title: '发现音乐',
+			},
+		],
+	},
+	{
+		menuTitle: '我的音乐',
+		menuItem: [
+			{
+				title: '本地与下载',
+			},
+			{
+				title: '最近播放',
+			},
+		],
+	},
+];
 </script>
 
 <template>
 	<div id="main">
-		<div class="slidebar">
-			<div>侧边栏</div>
-		</div>
+		<SlideBar :menuConfig="menuConfig"></SlideBar>
 		<div class="content">
 			<router-view></router-view>
 		</div>

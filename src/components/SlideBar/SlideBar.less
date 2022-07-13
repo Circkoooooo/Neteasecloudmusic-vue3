@@ -1,0 +1,35 @@
+.slidebar {
+	font-size: @slidebar-font-size;
+
+	.menu {
+		padding: 8px;
+
+		.submenu {
+			margin-top: 16px;
+
+			.item {
+				padding: 0 8px;
+				user-select: none;
+			}
+
+			.item.title {
+				height: 24px;
+				font-size: 12px;
+				line-height: 24px;
+			}
+
+			.item.menuItem.select {
+				color: @main-color;
+				background-color: @support-color;
+			}
+
+			.item.menuItem {
+				height: 40px;
+				line-height: 40px;
+				cursor: pointer;
+				font-weight: bold;
+			}
+
+		}
+	}
+}
