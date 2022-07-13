@@ -17,6 +17,7 @@
     "import/no-extraneous-dependencies": "off",
     "vue/comment-directive": "off",
     "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "vue/no-multiple-template-root": "off"
   }
 }
