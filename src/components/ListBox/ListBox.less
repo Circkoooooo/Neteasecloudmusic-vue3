@@ -1,0 +1,24 @@
+.list_box {
+	width: 100%;
+
+	.box_header {
+		display: flex;
+		justify-content: space-between;
+		font-size: 14px;
+
+		.title {
+			user-select: none;
+			font-weight: bold;
+		}
+
+		.detail {
+			cursor: pointer;
+			color: @secondary-font-color;
+			transition: @default-transition;
+
+			&:hover {
+				color: @main-color;
+			}
+		}
+	}
+}

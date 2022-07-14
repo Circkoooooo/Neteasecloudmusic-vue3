@@ -5,6 +5,7 @@ import axios from 'axios';
 import postUrl from '~/axios/postUrl';
 import type { HomePageBanner } from '~/types/PageHome/HomePageBanner';
 import type { HomePageRecommendMusicList, HomePageRecommendMusicStyleList } from '~/types/PageHome/HomePageRecommendMusicList';
+import ListBox from '~/components/ListBox/ListBox.vue';
 
 const homepage = reactive({
 	homepageBanner: {
@@ -62,19 +63,23 @@ const resouces = computed(() => {
 			</div>
 		</div> -->
 		<!-- rcmd -->
-		<div class="recommend_music_list">
-			<div class="rcmd_music"
-					v-for="rcmdMusic in resouces"
-					:key="rcmdMusic.creativeId">
-				<div class="img">
-					<img :src="rcmdMusic.resources[0].uiElement.image.imageUrl">
-				</div>
-				<div class="music_info">
-					<div class="title">
-						{{ rcmdMusic.resources[0].uiElement.mainTitle.title }}
+		<ListBox title="发现音乐"
+				paddingVal="8px"
+				gotoDetailBtnName="更多">
+			<div class="recommend_music_list">
+				<div class="rcmd_music"
+						v-for="rcmdMusic in resouces"
+						:key="rcmdMusic.creativeId">
+					<div class="img">
+						<img :src="rcmdMusic.resources[0].uiElement.image.imageUrl">
+					</div>
+					<div class="music_info">
+						<div class="title">
+							{{ rcmdMusic.resources[0].uiElement.mainTitle.title }}
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</ListBox>
 	</div>
 </template>
