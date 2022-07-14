@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import '~/styles/page.less';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
+import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 
 const menuConfig = [
 	{
@@ -28,19 +29,33 @@ const menuConfig = [
 </script>
 
 <template>
-	<div id="main">
-		<SlideBar :menuConfig="menuConfig"></SlideBar>
-		<div class="content">
-			<router-view></router-view>
+	<div class="main">
+		<div class="main_content">
+			<SlideBar :menuConfig="menuConfig"></SlideBar>
+			<div class="content">
+				<router-view></router-view>
+			</div>
+		</div>
+		<div class="main_fix">
+			<MusicPlayer></MusicPlayer>
 		</div>
 	</div>
 </template>
 
 <style lang="less" scoped>
-#main {
+.main {
 	height: 100%;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+
+	.main_content {
+		display: flex;
+		height: 100%;
+	}
+
+	.main_fix {
+		height: 80px;
+	}
 }
 
 .slidebar {
