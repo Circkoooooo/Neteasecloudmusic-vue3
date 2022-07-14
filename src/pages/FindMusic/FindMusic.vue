@@ -40,7 +40,7 @@ const homepage = reactive({
 }());
 
 /**
- * get musicList * 10
+ * get musicList
  */
 const resouces = computed(() => {
 	const recommendList = homepage.homepageRecommendMusicList.creatives;
@@ -63,7 +63,7 @@ const resouces = computed(() => {
 			</div>
 		</div> -->
 		<!-- rcmd -->
-		<ListBox title="发现音乐"
+		<ListBox title="推荐歌单"
 				paddingVal="8px"
 				gotoDetailBtnName="更多">
 			<div class="recommend_music_list">

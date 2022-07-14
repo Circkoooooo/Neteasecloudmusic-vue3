@@ -16,6 +16,13 @@
 		display: inline-block;
 		width: 160px;
 		overflow: hidden;
+		cursor: pointer;
+		opacity: 0.9;
+		transition: @default-transition;
+
+		&:hover {
+			opacity: 1;
+		}
 
 		.music_info {
 			height: 40px;
