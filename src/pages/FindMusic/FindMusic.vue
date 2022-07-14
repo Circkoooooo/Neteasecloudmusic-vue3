@@ -74,7 +74,6 @@ const resouces = computed(() => {
 						{{ rcmdMusic.resources[0].uiElement.mainTitle.title }}
 					</div>
 				</div>
-				<!-- {{ rcmdMusic.resources[0].resourceExtInfo.playCount }} -->
 			</div>
 		</div>
 	</div>

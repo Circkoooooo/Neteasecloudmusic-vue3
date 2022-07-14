@@ -44,12 +44,13 @@ const menuConfig = [
 }
 
 .slidebar {
-	width: 216px;
+	min-width: 216px;
 	height: 100%;
 	background-color: @layoutback-color;
 }
 
 .content {
 	flex: 1;
+	overflow: hidden;
 }
 </style>
