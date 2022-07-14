@@ -3,8 +3,8 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 export const routes = [
 	{
 		path: '/',
-		name: 'pagehome',
-		component: () => import('../pages/PageHome/PageHome.vue'),
+		name: 'findMusic',
+		component: () => import('../pages/FindMusic/FindMusic.vue'),
 	},
 ];
 

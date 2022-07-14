@@ -6,6 +6,7 @@ const menuConfig = [
 	{
 		menuItem: [
 			{
+				link: '/',
 				title: '发现音乐',
 			},
 		],
@@ -14,9 +15,11 @@ const menuConfig = [
 		menuTitle: '我的音乐',
 		menuItem: [
 			{
+				link: '/localdownload',
 				title: '本地与下载',
 			},
 			{
+				link: '/recentplay',
 				title: '最近播放',
 			},
 		],
