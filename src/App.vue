@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import '~/styles/page.less';
-import UserStore from '~/store/userStore';
+import useUserStore from '~/store/UserStore';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 import UserProfile from '~/components/UserProfile/UserProfile.vue';
 import { getLoginStatus } from './composables/login';
 
-const userStore = UserStore();
+const userStore = useUserStore();
 const menuConfig = [
 	{
 		menuItem: [

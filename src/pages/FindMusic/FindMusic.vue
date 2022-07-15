@@ -1,28 +1,15 @@
 <script lang="ts" setup>
 import {
-	computed, reactive,
+	computed,
 } from 'vue';
-
-import './FindMusic.less';
 import axios from 'axios';
+import useBannerStore from '~/store/bannerStore';
+import './FindMusic.less';
 import postUrl from '~/axios/postUrl';
-import type { HomePageBanner } from '~/types/PageHome/HomePageBanner';
-import type { HomePageRecommendMusicList, HomePageRecommendMusicStyleList } from '~/types/PageHome/HomePageRecommendMusicList';
 import ListBox from '~/components/ListBox/ListBox.vue';
 import RecommendMusicList from '~/components/RecommendMuiscList/RecommendMusicList.vue';
 
-const homepage = reactive({
-	homepageBanner: {
-		blockCode: 'HOMEPAGE_BANNER',
-	} as HomePageBanner,
-	homepageRecommendMusicList: {
-		blockCode: 'HOMEPAGE_BLOCK_PLAYLIST_RCMD',
-	} as HomePageRecommendMusicList,
-	homepageRecommendMusicStyleList: {
-		blockCode: 'HOMEPAGE_BLOCK_STYLE_RCMD',
-	} as HomePageRecommendMusicStyleList,
-});
-
+const bannerStore = useBannerStore();
 /**
  * request content of banner, RecommendList.
  */
@@ -33,14 +20,14 @@ const homepage = reactive({
 			throw new Error('cant fetch some music info');
 		}
 		if (res.data.code === 200) {
-			homepage.homepageBanner = blocks.find(
-				(item: any) => item.blockCode === homepage.homepageBanner.blockCode,
+			bannerStore.homepageBanner = blocks.find(
+				(item: any) => item.blockCode === bannerStore.homepageBanner.blockCode,
 			);
-			homepage.homepageRecommendMusicList = blocks.find(
-				(item: any) => item.blockCode === homepage.homepageRecommendMusicList.blockCode,
+			bannerStore.homepageRecommendMusicList = blocks.find(
+				(item: any) => item.blockCode === bannerStore.homepageRecommendMusicList.blockCode,
 			);
-			homepage.homepageRecommendMusicStyleList = blocks.find(
-				(item: any) => item.blockCode === homepage.homepageRecommendMusicStyleList.blockCode,
+			bannerStore.homepageRecommendMusicStyleList = blocks.find(
+				(item: any) => item.blockCode === bannerStore.homepageRecommendMusicStyleList.blockCode,
 			);
 		}
 	});
@@ -50,8 +37,8 @@ const homepage = reactive({
  * get musicList
  */
 const resouces = computed(() => {
-	const recommendList = homepage.homepageRecommendMusicList.creatives;
-	const styleRecommentList = homepage.homepageRecommendMusicStyleList.creatives;
+	const recommendList = bannerStore.homepageRecommendMusicList.creatives;
+	const styleRecommentList = bannerStore.homepageRecommendMusicStyleList.creatives;
 	if (!styleRecommentList) return null;
 	return [...styleRecommentList, ...recommendList];
 });

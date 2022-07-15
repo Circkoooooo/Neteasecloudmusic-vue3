@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import './UserProfile.less';
 import { computed } from 'vue';
-import userStore from '~/store/userStore';
+import userStore from '~/store/UserStore';
 
 const user = userStore();
 const userProfile = computed(() => user.profile);
