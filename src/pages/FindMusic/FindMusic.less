@@ -22,13 +22,6 @@
 		display: inline-block;
 		width: 160px;
 		overflow: hidden;
-		cursor: pointer;
-		opacity: 0.9;
-		transition: @default-transition;
-
-		&:hover {
-			opacity: 1;
-		}
 
 		.music_info {
 			height: var(--rcmd-text-height);
@@ -37,6 +30,8 @@
 			font-weight: bold;
 
 			.title {
+				width: fit-content;
+				cursor: pointer;
 				text-overflow: ellipsis;
 
 				display: -webkit-box;
@@ -51,7 +46,13 @@
 				word-break: break-all;
 				white-space: normal;
 				overflow: hidden;
+				opacity: 0.8;
 
+				transition: @default-transition;
+
+				&:hover {
+					opacity: 1;
+				}
 			}
 		}
 
@@ -60,6 +61,13 @@
 			height: var(--rcmd-img-height);
 			border-radius: 8px;
 			overflow: hidden;
+			opacity: 0.9;
+			cursor: pointer;
+			transition: @default-transition;
+
+			&:hover {
+				opacity: 1;
+			}
 
 			img {
 				height: 100%;

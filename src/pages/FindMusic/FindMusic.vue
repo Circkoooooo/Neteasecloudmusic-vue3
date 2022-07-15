@@ -82,7 +82,6 @@ onMounted(() => {
 				gotoDetailBtnName="更多">
 			<div class="recommend_music_list"
 					ref="rcmdList">
-				<!-- TODO:add two button to instead of scroll event-->
 				<div class="rcmd_music"
 						v-for="rcmdMusic in resouces"
 						:key="rcmdMusic.creativeId">
