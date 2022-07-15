@@ -12,7 +12,11 @@ onMounted(() => {
 	if (rcmdList.value !== undefined && rcmdList.value !== null) {
 		rcmdList.value.onwheel = (event) => {
 			event.preventDefault();
-			rcmdList.value!.scrollLeft += event.deltaY;
+			if (event.deltaY !== 0) {
+				rcmdList.value!.scrollLeft += event.deltaY;
+			} else {
+				rcmdList.value!.scrollLeft += event.deltaX;
+			}
 		};
 	}
 });
