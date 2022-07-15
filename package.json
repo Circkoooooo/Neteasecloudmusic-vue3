@@ -1,70 +1,71 @@
 {
-  "name": "netease-music",
-  "private": true,
-  "version": "0.0.0",
-  "main": "./dist/main.js",
-  "scripts": {
-    "electron:serve": "concurrently \"npm run dev\" \"npm run electron:start\"",
-    "electron:start": "electron ./main.js",
-    "electron:pkg": "electron-builder",
-    "commit": "git cz",
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "prepare": "husky install",
-    "lint": "eslint src/* --fix"
-  },
-  "build": {
-    "files": [
-      "./dist/**/*",
-      "./index.html"
-    ],
-    "directories": {
-      "output": "package"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,vue,tsx}": [
-      "npm run lint"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-customizable"
-    }
-  },
-  "dependencies": {
-    "@types/node": "^18.0.3",
-    "axios": "^0.27.2",
-    "concurrently": "^7.2.2",
-    "vue": "^3.2.25",
-    "vue-router": "4"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.30.6",
-    "@typescript-eslint/parser": "^5.30.6",
-    "@vitejs/plugin-vue": "^2.3.3",
-    "babel-eslint": "^10.1.0",
-    "cz-customizable": "^6.9.0",
-    "electron": "^19.0.8",
-    "electron-builder": "^23.1.0",
-    "eslint": "^7.32.0 || ^8.2.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-vue": "^9.2.0",
-    "husky": "^8.0.1",
-    "less": "^4.1.3",
-    "less-loader": "^11.0.0",
-    "lint-staged": "^13.0.3",
-    "typescript": "^4.5.4",
-    "vite": "^2.9.14",
-    "vue-eslint-parser": "^9.0.3",
-    "vue-tsc": "^0.34.7"
-  }
+	"name": "netease-music",
+	"private": true,
+	"version": "0.0.0",
+	"main": "./dist/main.js",
+	"scripts": {
+		"electron:serve": "concurrently \"npm run dev\" \"npm run electron:start\"",
+		"electron:start": "electron ./main.js",
+		"electron:pkg": "electron-builder",
+		"commit": "git cz",
+		"dev": "vite",
+		"build": "vue-tsc --noEmit && vite build",
+		"preview": "vite preview",
+		"prepare": "husky install",
+		"lint": "eslint src/* --fix"
+	},
+	"build": {
+		"files": [
+			"./dist/**/*",
+			"./index.html"
+		],
+		"directories": {
+			"output": "package"
+		}
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.{ts,vue,tsx}": [
+			"npm run lint"
+		]
+	},
+	"config": {
+		"commitizen": {
+			"path": "node_modules/cz-customizable"
+		}
+	},
+	"dependencies": {
+		"@types/node": "^18.0.3",
+		"axios": "^0.27.2",
+		"concurrently": "^7.2.2",
+		"pinia": "^2.0.16",
+		"vue": "^3.2.25",
+		"vue-router": "4"
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.30.6",
+		"@typescript-eslint/parser": "^5.30.6",
+		"@vitejs/plugin-vue": "^2.3.3",
+		"babel-eslint": "^10.1.0",
+		"cz-customizable": "^6.9.0",
+		"electron": "^19.0.8",
+		"electron-builder": "^23.1.0",
+		"eslint": "^7.32.0 || ^8.2.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-plugin-import": "^2.25.2",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-vue": "^9.2.0",
+		"husky": "^8.0.1",
+		"less": "^4.1.3",
+		"less-loader": "^11.0.0",
+		"lint-staged": "^13.0.3",
+		"typescript": "^4.5.4",
+		"vite": "^2.9.14",
+		"vue-eslint-parser": "^9.0.3",
+		"vue-tsc": "^0.34.7"
+	}
 }

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-	computed, onMounted, reactive, ref,
+	computed, reactive,
 } from 'vue';
 
 import './FindMusic.less';
@@ -9,8 +9,7 @@ import postUrl from '~/axios/postUrl';
 import type { HomePageBanner } from '~/types/PageHome/HomePageBanner';
 import type { HomePageRecommendMusicList, HomePageRecommendMusicStyleList } from '~/types/PageHome/HomePageRecommendMusicList';
 import ListBox from '~/components/ListBox/ListBox.vue';
-
-const rcmdList = ref<HTMLElement>();
+import RecommendMusicList from '~/components/RecommendMuiscList/RecommendMusicList.vue';
 
 const homepage = reactive({
 	homepageBanner: {
@@ -24,6 +23,9 @@ const homepage = reactive({
 	} as HomePageRecommendMusicStyleList,
 });
 
+/**
+ * request content of banner, RecommendList.
+ */
 (function getHomePage() {
 	axios.post(postUrl.homepage).then((res) => {
 		const { blocks } = res.data.data;
@@ -51,17 +53,9 @@ const resouces = computed(() => {
 	const recommendList = homepage.homepageRecommendMusicList.creatives;
 	const styleRecommentList = homepage.homepageRecommendMusicStyleList.creatives;
 	if (!styleRecommentList) return null;
-	return [...styleRecommentList, ...recommendList].slice(2, 10);
+	return [...styleRecommentList, ...recommendList];
 });
 
-onMounted(() => {
-	if (rcmdList.value !== undefined && rcmdList.value !== null) {
-		rcmdList.value.onwheel = (event) => {
-			event.preventDefault();
-			rcmdList.value!.scrollLeft += event.deltaY;
-		};
-	}
-});
 </script>
 
 <template>
@@ -80,21 +74,7 @@ onMounted(() => {
 		<ListBox title="推荐歌单"
 				paddingVal="8px"
 				gotoDetailBtnName="更多">
-			<div class="recommend_music_list"
-					ref="rcmdList">
-				<div class="rcmd_music"
-						v-for="rcmdMusic in resouces"
-						:key="rcmdMusic.creativeId">
-					<div class="img">
-						<img :src="rcmdMusic.resources[0].uiElement.image.imageUrl">
-					</div>
-					<div class="music_info">
-						<div class="title">
-							{{ rcmdMusic.resources[0].uiElement.mainTitle.title }}
-						</div>
-					</div>
-				</div>
-			</div>
+			<RecommendMusicList :resouceList="resouces"></RecommendMusicList>
 		</ListBox>
 	</div>
 </template>

@@ -1,26 +1,24 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "plugin:vue/essential",
-    "airbnb-base"
-  ],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "parser": "@typescript-eslint/parser",
-    "sourceType": "module"
-  },
-  "plugins": ["vue", "@typescript-eslint"],
-  "rules": {
-    "no-tabs": "off",
-    "indent": ["error", "tab"],
-    "linebreak-style": "off",
-    "import/no-extraneous-dependencies": "off",
-    "vue/comment-directive": "off",
-    "import/no-unresolved": "off",
-    "import/extensions": "off",
-    "vue/no-multiple-template-root": "off"
-  }
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"extends": ["plugin:vue/essential", "airbnb-base"],
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"parser": "@typescript-eslint/parser",
+		"sourceType": "module"
+	},
+	"plugins": ["vue", "@typescript-eslint"],
+	"rules": {
+		"no-tabs": "off",
+		"indent": ["error", "tab"],
+		"linebreak-style": "off",
+		"import/no-extraneous-dependencies": "off",
+		"vue/comment-directive": "off",
+		"import/no-unresolved": "off",
+		"import/extensions": "off",
+		"vue/no-multiple-template-root": "off",
+		"no-param-reassign": "off"
+	}
 }

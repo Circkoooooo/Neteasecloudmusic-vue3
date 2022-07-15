@@ -1,8 +1,12 @@
 <script lang="ts" setup>
 import '~/styles/page.less';
+import UserStore from '~/store/userStore';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
+import UserProfile from '~/components/UserProfile/UserProfile.vue';
+import { getLoginStatus } from './composables/login';
 
+const userStore = UserStore();
 const menuConfig = [
 	{
 		menuItem: [
@@ -26,12 +30,24 @@ const menuConfig = [
 		],
 	},
 ];
+// getLoginStatus if login, set profile and account info to pinia.
+getLoginStatus().then((res) => {
+	if (res !== null) {
+		userStore.account = res.account;
+		userStore.profile = res.profile;
+	}
+});
+
 </script>
 
 <template>
 	<div class="main">
 		<div class="main_content">
-			<SlideBar :menuConfig="menuConfig"></SlideBar>
+			<SlideBar :menuConfig="menuConfig">
+				<template v-slot:UserProfile>
+					<UserProfile></UserProfile>
+				</template>
+			</SlideBar>
 			<div class="content">
 				<router-view></router-view>
 			</div>

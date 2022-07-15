@@ -60,7 +60,7 @@ watch(
 <template>
 	<div class="slidebar">
 		<!-- TODO:add user info card to it. -->
-		<slot name="UserInfoSummary"></slot>
+		<slot name="UserProfile"></slot>
 		<!-- Menu -->
 		<div class="menu">
 			<div class="submenu"

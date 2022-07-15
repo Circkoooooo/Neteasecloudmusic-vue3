@@ -7,7 +7,7 @@ const createWindow = () => {
 		frame: false,
 		webPreferences: {
 			nodeIntegration: true,
-
+			contextIsolation: false,
 		},
 	});
 	if (process.env.npm_lifecycle_event === 'electron:start') {
