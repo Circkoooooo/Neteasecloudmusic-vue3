@@ -55,6 +55,7 @@ const menuConfig = [
 
 	.main_fix {
 		height: 80px;
+		position: relative;
 	}
 }
 

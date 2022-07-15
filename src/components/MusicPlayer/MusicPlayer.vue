@@ -1,10 +1,25 @@
 <script lang="ts" setup>
 import './MusicPlayer.less';
-// TODO:Player
 </script>
 
 <template>
 	<div class="music_player">
-		音乐播放器区域
+		<!-- TODO:歌曲信息 -->
+		<div class="music_profile">
+			<img class="music_cover"
+					src="down.png">
+			<div class="music_info">
+				<div class="music_title">歌曲标题</div>
+				<div class="music_singer">歌手信息</div>
+			</div>
+			<div class="music_addtion">
+				<a class="addition_like">
+					<img src="like_default.png">
+				</a>
+			</div>
+		</div>
+		<!-- TODO:播放按钮 -->
+		<!-- TODO:进度条 -->
+		<!-- TODO:音量 -->
 	</div>
 </template>
