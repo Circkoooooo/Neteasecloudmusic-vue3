@@ -6,15 +6,13 @@ import './MusicPlayer.less';
 	<div class="music_player">
 		<!-- TODO:歌曲信息 -->
 		<div class="music_profile">
-			<img class="music_cover"
-					src="down.png">
 			<div class="music_info">
 				<div class="music_title">歌曲标题</div>
 				<div class="music_singer">歌手信息</div>
 			</div>
 			<div class="music_addtion">
 				<a class="addition_like">
-					<img src="like_default.png">
+					<img src="../../assets/like_default.png">
 				</a>
 			</div>
 		</div>
