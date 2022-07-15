@@ -1,3 +1,8 @@
+:root {
+	--rcmd-text-height: 40px;
+	--rcmd-img-height: 160px;
+}
+
 .findmusic {
 	padding: 16px;
 }
@@ -6,6 +11,7 @@
 	white-space: nowrap;
 	overflow-y: scroll;
 	scrollbar-width: none;
+	position: relative;
 
 	&::-webkit-scrollbar {
 		width: 0 !important;
@@ -18,14 +24,14 @@
 		overflow: hidden;
 		cursor: pointer;
 		opacity: 0.9;
-		transition: @default-transition;
+		user-select: none;
 
 		&:hover {
 			opacity: 1;
 		}
 
 		.music_info {
-			height: 40px;
+			height: var(--rcmd-text-height);
 			padding: 8px 0;
 			font-size: 12px;
 			font-weight: bold;
@@ -50,8 +56,8 @@
 		}
 
 		.img {
-			width: 160px;
-			height: 160px;
+			width: var(--rcmd-img-height);
+			height: var(--rcmd-img-height);
 			border-radius: 8px;
 			overflow: hidden;
 

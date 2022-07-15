@@ -1,11 +1,16 @@
 <script lang="ts" setup>
+import {
+	computed, onMounted, reactive, ref,
+} from 'vue';
+
 import './FindMusic.less';
-import { computed, reactive } from 'vue';
 import axios from 'axios';
 import postUrl from '~/axios/postUrl';
 import type { HomePageBanner } from '~/types/PageHome/HomePageBanner';
 import type { HomePageRecommendMusicList, HomePageRecommendMusicStyleList } from '~/types/PageHome/HomePageRecommendMusicList';
 import ListBox from '~/components/ListBox/ListBox.vue';
+
+const rcmdList = ref<HTMLElement>();
 
 const homepage = reactive({
 	homepageBanner: {
@@ -48,6 +53,15 @@ const resouces = computed(() => {
 	if (!styleRecommentList) return null;
 	return [...styleRecommentList, ...recommendList].slice(2, 10);
 });
+
+onMounted(() => {
+	if (rcmdList.value !== undefined && rcmdList.value !== null) {
+		rcmdList.value.onwheel = (event) => {
+			event.preventDefault();
+			rcmdList.value!.scrollLeft += event.deltaY;
+		};
+	}
+});
 </script>
 
 <template>
@@ -66,7 +80,9 @@ const resouces = computed(() => {
 		<ListBox title="推荐歌单"
 				paddingVal="8px"
 				gotoDetailBtnName="更多">
-			<div class="recommend_music_list">
+			<div class="recommend_music_list"
+					ref="rcmdList">
+				<!-- TODO:add two button to instead of scroll event-->
 				<div class="rcmd_music"
 						v-for="rcmdMusic in resouces"
 						:key="rcmdMusic.creativeId">
