@@ -23,12 +23,16 @@
 			flex-direction: column;
 			justify-content: space-between;
 			overflow: hidden;
-			width: 120px;
+			width: 140px;
 
 			.music_title {
 				font-weight: bold;
 				font-size: 14px;
 				display: inline-block;
+				height: 20px;
+				line-height: 20px;
+				text-overflow: ellipsis;
+				overflow: hidden;
 			}
 
 			.music_singer {
@@ -59,7 +63,7 @@
 
 	// button
 	.music_button {
-		width: 320px;
+		min-width: 240px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -101,12 +105,12 @@
 
 	//process 
 	.process_bar {
-		flex: 1;
+		min-width: 320px;
 		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin-right: 100px;
+		margin: 0 48px;
 
 		.outer_frame {
 			width: 100%;
@@ -131,7 +135,7 @@
 		height: 100%;
 		display: flex;
 		align-items: center;
-		margin: 0 16px;
+		margin-left: auto;
 
 		.music_list {
 			cursor: pointer;
