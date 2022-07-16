@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import './RecommendMusicList.less';
 import { onMounted, ref } from 'vue';
 import type { Creative } from '~/types/PageHome/HomePageRecommendMusicList';
 
