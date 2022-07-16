@@ -1,14 +1,13 @@
 .music_player {
 	background-color: #F5F5F5;
 	bottom: 0;
-	width: 100%;
 	height: 64px;
 	padding: 8px 16px;
+	display: flex;
 
-	// left
+	// info
 	.music_profile {
 		height: 64px;
-		width: 320px;
 		display: flex;
 
 		.music_cover {
@@ -24,7 +23,7 @@
 			flex-direction: column;
 			justify-content: space-between;
 			overflow: hidden;
-			width: 240px;
+			width: 120px;
 
 			.music_title {
 				font-weight: bold;
@@ -42,7 +41,7 @@
 
 		.music_addtion {
 			height: 100%;
-			width: 100%;
+			width: 64px;
 			display: flex;
 			align-items: center;
 
@@ -58,5 +57,91 @@
 		}
 	}
 
-	// center
+	// button
+	.music_button {
+		width: 320px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+
+		.go_start,
+		.go_end,
+		.play {
+			cursor: pointer;
+			margin: auto 0;
+			height: 40px;
+			width: 40px;
+			border-radius: 50%;
+			overflow: hidden;
+			background-color: rgba(255, 255, 255, 0.4);
+
+			&:hover {
+				background-color: rgba(255, 255, 255, 0.8);
+			}
+
+			color: red;
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.play {
+			margin: 0 24px;
+		}
+
+		.go_end,
+		.go_start {
+			height: 24px;
+			width: 24px;
+		}
+	}
+
+	//process 
+	.process_bar {
+		flex: 1;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-right: 100px;
+
+		.outer_frame {
+			width: 100%;
+			height: 4px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 12px;
+
+			.process {
+				border-radius: 8px;
+				margin: 0 8px;
+				width: 100%;
+				height: 100%;
+				background-color: @layoutback-color ;
+			}
+		}
+	}
+
+	// music_handler_menu
+	.music_handler_menu {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		margin: 0 16px;
+
+		.music_list {
+			cursor: pointer;
+			height: 24px;
+			width: 24px;
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
 }

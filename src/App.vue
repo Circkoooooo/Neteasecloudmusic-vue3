@@ -4,9 +4,10 @@ import useUserStore from '~/store/UserStore';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 import UserProfile from '~/components/UserProfile/UserProfile.vue';
-import { getLoginStatus } from './composables/login';
+import getLoginStatus from './composables/login';
 
 const userStore = useUserStore();
+
 const menuConfig = [
 	{
 		menuItem: [

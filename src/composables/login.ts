@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Account, Profile } from '~/types/User/UserProfile';
 
 // checkLoginStatus
-export async function getLoginStatus() {
+export default async function getLoginStatus() {
 	return axios.post('/login/status').then((res) => {
 		if (res.data.data.code !== 200) {
 			return null;
@@ -18,5 +18,3 @@ export async function getLoginStatus() {
 		};
 	});
 }
-
-export default null;
