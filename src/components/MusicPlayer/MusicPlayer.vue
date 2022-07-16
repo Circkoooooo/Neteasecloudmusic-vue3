@@ -4,16 +4,24 @@ import {
 	computed, onMounted, ref,
 } from 'vue';
 import useMusicPlayer from '~/composables/useMusicPlayer';
+import timeFormat from '~/utils/timeFormat';
 
 const audio = ref<HTMLAudioElement | null>(null);
+const headBtn = ref<HTMLElement | null>(null);
+const processBar = ref<HTMLElement | null>(null);
+const startX = ref(0);
+const startProcess = ref(0);
+const offsetX = ref(0);
 const {
 	isPlay,
 	loadStorage,
 	changePlayStatusButton,
 	onTimeUpdate,
+	onEnded,
 	musicInfoObj,
 	getMusicInfoStorage,
 	getMusicPlayStatusStorage,
+	changeCurrentTime,
 } = useMusicPlayer(audio);
 
 (function loadStorageMusicInfoAndStatus() {
@@ -51,15 +59,49 @@ const musicInfo = computed(() => {
 	}
 	return musicShowInfo;
 });
+
+const process = computed(() => {
+	const { musicDuration, musicCurrentTime } = musicInfoObj.musicPlayStatus;
+	if (!musicCurrentTime || !musicDuration) { return 0; }
+
+	return Math.fround(musicCurrentTime / musicDuration) * 100 >= 100
+		? 100 : Math.fround(musicCurrentTime / musicDuration) * 100;
+});
+
+const headBtnMove = (event: MouseEvent) => {
+	const ofx = event.clientX - startX.value;
+	offsetX.value = startProcess.value + ofx;
+	if (offsetX.value > musicInfoObj.musicPlayStatus.musicDuration) {
+		offsetX.value = musicInfoObj.musicPlayStatus.musicDuration;
+	}
+	musicInfoObj.musicPlayStatus.musicCurrentTime = offsetX.value;
+};
+
 onMounted(() => {
 	loadStorage();
+	headBtn.value!.onmousedown = (startEvent: MouseEvent) => {
+		startX.value = startEvent.clientX;
+		startProcess.value = musicInfoObj.musicPlayStatus.musicCurrentTime;
+
+		document.addEventListener('mousemove', headBtnMove, false);
+		document.onmouseup = () => {
+			document.removeEventListener('mousemove', headBtnMove, false);
+			if (offsetX.value !== 0) {
+				changeCurrentTime(offsetX.value);
+			}
+			startX.value = 0;
+			startProcess.value = 0;
+			offsetX.value = 0;
+		};
+	};
 });
 </script>
 
 <template>
 	<div class="music_player">
 		<audio ref="audio"
-				@timeupdate="onTimeUpdate"></audio>
+				@timeupdate="onTimeUpdate"
+				@ended="onEnded"></audio>
 		<div class="music_profile">
 			<div class="music_cover">
 				<img src="../../assets/logo.png"
@@ -69,7 +111,6 @@ onMounted(() => {
 				musicInfo.musicPicUrl"
 						class="music_cover"
 						v-else>
-
 			</div>
 			<div class="music_info">
 				<div class="music_title">{{ musicInfo.musicName }}</div>
@@ -99,11 +140,20 @@ onMounted(() => {
 		</div>
 		<!-- TODO:进度条 -->
 		<div class="process_bar">
+			<span class="current_time">
+				{{ timeFormat(musicInfoObj.musicPlayStatus.musicCurrentTime) }}</span>
 			<div class="outer_frame">
-				<span class="current_time">0:00</span>
-				<div class="process" />
-				<span class="all_time">0:00</span>
+				<div class="inner_bar"
+						:style="{ width: process + '%' }">
+					<div class="head_btn"
+							ref="headBtn" />
+				</div>
+				<div class="process"
+						ref="processBar" />
 			</div>
+			<span class="all_time">
+				{{ timeFormat(musicInfoObj.musicPlayStatus.musicDuration) }}
+			</span>
 		</div>
 		<div class="music_handler_menu">
 			<!-- TODO:音量 -->

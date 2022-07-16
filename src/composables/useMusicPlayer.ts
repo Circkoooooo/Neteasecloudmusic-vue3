@@ -98,14 +98,20 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 	};
 
 	// be excuted after loadmusic
-	const play = (currentTime:number) => {
+	const play = (currentTime:number, playNow:boolean) => {
 		if (musicSource.value === null) return;
 		musicSource.value.src = musicInfoObj.musicUrl;
 		musicSource.value.currentTime = currentTime;
 		musicSource.value.oncanplay = () => {
-			isPlay.value = true;
+			if (playNow) {
+				isPlay.value = true;
+			}
 		};
 	};
+
+	// const onPause = () => {
+	// 	isPlay.value = false;
+	// };
 	// use to ontimeupdate event
 	const onTimeUpdate = () => {
 		const duration = musicSource.value?.duration;
@@ -117,7 +123,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		}
 	};
 
-	const loadMusic = async (musicId: number, currentTime:number = 0) => {
+	const loadMusic = async (musicId: number, playNow:boolean, currentTime:number = 0) => {
 		// storageMusicPlayStatus
 		if (musicSource.value === null) return;
 
@@ -139,7 +145,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		saveMusicInfoStorage();
 		saveMusicPlayStatusStorage();
 		saveMusicIdStorage();
-		play(currentTime);
+		play(currentTime, false);
 	};
 
 	const loadStorage = () => {
@@ -150,11 +156,11 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		const musicId = getMusicIdStorage();
 		if (musicId !== null && musicId !== 0 && musicId !== undefined) {
 			musicInfoObj.musicId = musicId;
-			loadMusic(musicId, musicInfoObj.musicPlayStatus.musicCurrentTime);
+			loadMusic(musicId, false, musicInfoObj.musicPlayStatus.musicCurrentTime);
 		} else {
 			const data = getMusicInfoStorage();
 			const { id } = data;
-			loadMusic(id);
+			loadMusic(id, true);
 		}
 	};
 
@@ -165,25 +171,27 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		saveMusicPlayStatusStorage();
 	};
 
-	// const onPlay = () => {
-	// 	if (musicSource.value === null || isPlay.value) return;
-	// 	isPlay.value = true;
-	// };
-	// const onPause = () => {
-	// 	if (musicSource.value === null || !isPlay.value) return;
-	// 	isPlay.value = false;
-	// };
+	const changeCurrentTime = (currentTime?:number) => {
+		if (currentTime === undefined) return;
+		musicSource.value!.currentTime = currentTime;
+	};
 
+	const onEnded = () => {
+		isPlay.value = false;
+		musicInfoObj.musicPlayStatus.musicCurrentTime = musicInfoObj.musicPlayStatus.musicDuration;
+	};
 	return {
 		isPlay,
 		musicInfoObj,
 		loadMusic,
 		loadStorage,
+		onEnded,
 		onTimeUpdate,
 		changePlayStatusButton,
 		getMusicInfoStorage,
 		getMusicPlayStatusStorage,
 		getMusicIdStorage,
+		changeCurrentTime,
 	};
 };
 
