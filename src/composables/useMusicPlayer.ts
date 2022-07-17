@@ -46,7 +46,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		window.localStorage.setItem(storageNamespace.musicInfo, JSON.stringify(musicInfoObj.musicInfo));
 	};
 
-	// get musicInfo.
+	// // get musicInfo.
 	const getMusicInfoStorage = () => {
 		const data = window.localStorage.getItem(storageNamespace.musicInfo);
 		try {
@@ -98,15 +98,16 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 	};
 
 	// be excuted after loadmusic
-	const play = (currentTime:number, playNow:boolean) => {
+	const play = (currentTime:number, playNow:boolean, callBack:()=>void) => {
 		if (musicSource.value === null) return;
-		musicSource.value.src = musicInfoObj.musicUrl;
-		musicSource.value.currentTime = currentTime;
+		musicSource.value!.src = musicInfoObj.musicUrl;
+		musicSource.value!.currentTime = currentTime;
 		musicSource.value.oncanplay = () => {
 			if (playNow) {
 				isPlay.value = true;
 			}
 		};
+		callBack();
 	};
 
 	// const onPause = () => {
@@ -136,16 +137,17 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 				ids: musicId,
 			},
 		}).then((res) => res.data.songs[0]);
-
 		musicInfoObj.musicUrl = url;
-		musicInfoObj.musicInfo = musicInfoTemp;
-		musicInfoObj.musicId = musicId;
-		musicInfoObj.musicPlayStatus.musicCurrentTime = currentTime;
+
 		// saveStorage
 		saveMusicInfoStorage();
 		saveMusicPlayStatusStorage();
 		saveMusicIdStorage();
-		play(currentTime, false);
+		play(currentTime, playNow, () => {
+			musicInfoObj.musicInfo = musicInfoTemp;
+			musicInfoObj.musicPlayStatus.musicCurrentTime = currentTime;
+			musicInfoObj.musicId = musicId;
+		});
 	};
 
 	const loadStorage = () => {
@@ -154,13 +156,15 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 			musicInfoObj.musicPlayStatus = playStatus;
 		}
 		const musicId = getMusicIdStorage();
+
 		if (musicId !== null && musicId !== 0 && musicId !== undefined) {
 			musicInfoObj.musicId = musicId;
 			loadMusic(musicId, false, musicInfoObj.musicPlayStatus.musicCurrentTime);
 		} else {
 			const data = getMusicInfoStorage();
+			if (!data.id) return;
 			const { id } = data;
-			loadMusic(id, true);
+			loadMusic(id, false);
 		}
 	};
 

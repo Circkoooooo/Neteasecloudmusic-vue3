@@ -80,15 +80,16 @@ const headBtnMove = (event: MouseEvent) => {
 onMounted(() => {
 	loadStorage();
 	headBtn.value!.onmousedown = (startEvent: MouseEvent) => {
+		isPlay.value = false;
 		startX.value = startEvent.clientX;
 		startProcess.value = musicInfoObj.musicPlayStatus.musicCurrentTime;
-
 		document.addEventListener('mousemove', headBtnMove, false);
 		document.onmouseup = () => {
 			document.removeEventListener('mousemove', headBtnMove, false);
 			if (offsetX.value !== 0) {
 				changeCurrentTime(offsetX.value);
 			}
+			isPlay.value = true;
 			startX.value = 0;
 			startProcess.value = 0;
 			offsetX.value = 0;
