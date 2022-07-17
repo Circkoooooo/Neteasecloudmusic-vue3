@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import './RecommendMusicList.less';
 import { onMounted, ref } from 'vue';
-import type { Creative } from '~/types/PageHome/HomePageRecommendMusicList';
+import musicDetail from '~/composables/musicDetail';
+import { RecommendMusicList } from '~/types/PageHome/RecommendMusicList';
 
 const rcmdList = ref<HTMLElement>();
 
 withDefaults(defineProps<{
-	resouceList: Creative[] | null;
+	recommendList: RecommendMusicList[] | null;
 }>(), {});
 
 onMounted(() => {
@@ -27,14 +28,15 @@ onMounted(() => {
 	<div class="recommend_music_list"
 			ref="rcmdList">
 		<div class="rcmd_music"
-				v-for="rcmdMusic in resouceList"
-				:key="rcmdMusic.creativeId">
+				v-for="rcmdMusic in recommendList"
+				:key="rcmdMusic.id"
+				@click="musicDetail(rcmdMusic.id)">
 			<div class="img">
-				<img :src="rcmdMusic.resources[0].uiElement.image.imageUrl">
+				<img :src="rcmdMusic.picUrl">
 			</div>
 			<div class="music_info">
 				<div class="title">
-					{{ rcmdMusic.resources[0].uiElement.mainTitle.title }}
+					{{ rcmdMusic.name }}
 				</div>
 			</div>
 		</div>
