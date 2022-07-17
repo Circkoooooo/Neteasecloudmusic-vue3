@@ -162,7 +162,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 			loadMusic(musicId, false, musicInfoObj.musicPlayStatus.musicCurrentTime);
 		} else {
 			const data = getMusicInfoStorage();
-			if (!data.id) return;
+			if (!data || !data.id) return;
 			const { id } = data;
 			loadMusic(id, false);
 		}

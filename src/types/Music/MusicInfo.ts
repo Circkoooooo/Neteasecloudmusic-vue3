@@ -39,4 +39,5 @@ export type MusicInfo = {
 	mark: number,
 	version: number,
 	publishTime: number;
+	fee:number,
 }

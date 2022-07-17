@@ -38,6 +38,9 @@ const getPathIndexTree = (newPath: string): number[] => {
 		}
 		return -1;
 	});
+	if (target.every((item) => item === -1)) {
+		return [-1, -1];
+	}
 	const pathIndexList = target.find((item) => item !== -1);
 	if (pathIndexList === undefined || pathIndexList === -1) {
 		return [0, 0];

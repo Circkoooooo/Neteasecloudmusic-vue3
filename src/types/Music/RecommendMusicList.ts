@@ -26,6 +26,9 @@ export type Creator = {
 	userType: number;
 	vipType: number;
 };
+/**
+ * recommendMusicList
+ */
 export type RecommendMusicList = {
 	alg: string;
 	copywriter: string;

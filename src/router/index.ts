@@ -6,6 +6,11 @@ export const routes = [
 		name: 'findMusic',
 		component: () => import('../pages/FindMusic/FindMusic.vue'),
 	},
+	{
+		path: '/musicdetail',
+		name: 'musicdetail',
+		component: () => import('../pages/MusicListDetail/MusicListDetail.vue'),
+	},
 ];
 
 export const router = createRouter({

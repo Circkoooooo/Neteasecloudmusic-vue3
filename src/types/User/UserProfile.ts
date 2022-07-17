@@ -23,7 +23,8 @@ export type Profile = {
 	playlistBeSubscribedCount:number,
 	playlistCount: number,
 	province: number,
-	userId:number
+	userId: number,
+	signature:string,
 }
 
 export type Account = {

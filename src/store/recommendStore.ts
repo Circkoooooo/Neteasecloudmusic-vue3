@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
-import { RecommendMusicList } from '~/types/PageHome/RecommendMusicList';
+import { RecommendMusicList } from '~/types/Music/RecommendMusicList';
 
 const useRecommendStore = defineStore('recommendStore', {
 	state: (): {
-		recommendMusicList:RecommendMusicList[]
+		recommendMusicList: RecommendMusicList[];
 	} => ({
 		recommendMusicList: [] as RecommendMusicList[],
 	}),

@@ -1,13 +1,16 @@
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
 import '~/styles/page.less';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 import UserProfile from '~/components/UserProfile/UserProfile.vue';
-import useUserStore from '~/store/UserStore';
+import useUserStore from '~/store/userStore';
 import getLoginStatus from '~/composables/login';
 
-const userStore = useUserStore();
+const router = useRouter();
 
+const userStore = useUserStore();
 const menuConfig = [
 	{
 		menuItem: [
@@ -39,6 +42,9 @@ getLoginStatus().then((res) => {
 	}
 });
 
+onMounted(() => {
+	router.push('/');
+});
 </script>
 
 <template>

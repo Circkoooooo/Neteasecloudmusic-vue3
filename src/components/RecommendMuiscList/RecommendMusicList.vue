@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
 import './RecommendMusicList.less';
 import { onMounted, ref } from 'vue';
-import musicDetail from '~/composables/musicDetail';
-import { RecommendMusicList } from '~/types/PageHome/RecommendMusicList';
+import musicListDetail from '~/composables/musicListDetail';
+import { RecommendMusicList } from '~/types/Music/RecommendMusicList';
 
+const router = useRouter();
 const rcmdList = ref<HTMLElement>();
 
 withDefaults(defineProps<{
@@ -30,7 +32,7 @@ onMounted(() => {
 		<div class="rcmd_music"
 				v-for="rcmdMusic in recommendList"
 				:key="rcmdMusic.id"
-				@click="musicDetail(rcmdMusic.id)">
+				@click="musicListDetail(rcmdMusic.id, router, '\/musicdetail')">
 			<div class="img">
 				<img :src="rcmdMusic.picUrl">
 			</div>

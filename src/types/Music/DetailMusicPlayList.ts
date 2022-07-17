@@ -1,0 +1,44 @@
+import { DetailMusicSubscriber } from './DetailMusicSubscriber';
+
+export type DetailMusicPlayList = {
+	id: number;
+	name: string;
+	coverImgId: number;
+	coverImgUrl: string;
+	coverImgId_str: string;
+	adType: number;
+	userId: number;
+	createTime: number;
+	status: number;
+	opRecommend: false;
+	highQuality: false;
+	newImported: false;
+	updateTime: number;
+	trackCount: number;
+	specialType: number;
+	privacy: number;
+	trackUpdateTime: number;
+	commentThreadId: string;
+	playCount: number;
+	trackNumberUpdateTime: number;
+	subscribedCount: number;
+	cloudTrackCount: number;
+	ordered: false;
+	description: string;
+	tags: string[];
+	updateFrequency: string;
+	backgroundCoverId: number;
+	backgroundCoverUrl: string;
+	titleImage: number;
+	titleImageUrl: string;
+	englishTitle: string;
+	officialPlaylistType: string;
+	subscribers: DetailMusicSubscriber[];
+	trackIds: {
+		id: number;
+		at: number;
+		uid: number;
+		v: number;
+		t: number;
+	}[];
+};

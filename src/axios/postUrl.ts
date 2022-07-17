@@ -7,4 +7,5 @@ export default {
 	getMusicInfoByIds: 'song/detail',
 	getMusicRecommendLogin: 'recommend/resource',
 	getMusicRecommend: 'personalized',
+	getMusicListDetail: '/playlist/detail',
 };
