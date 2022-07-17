@@ -12,6 +12,8 @@ const processBar = ref<HTMLElement | null>(null);
 const startX = ref(0);
 const startProcess = ref(0);
 const offsetX = ref(0);
+const isMove = ref(false);
+
 const {
 	isPlay,
 	loadStorage,
@@ -80,6 +82,7 @@ const headBtnMove = (event: MouseEvent) => {
 onMounted(() => {
 	loadStorage();
 	headBtn.value!.onmousedown = (startEvent: MouseEvent) => {
+		isMove.value = true;
 		isPlay.value = false;
 		startX.value = startEvent.clientX;
 		startProcess.value = musicInfoObj.musicPlayStatus.musicCurrentTime;
@@ -89,7 +92,10 @@ onMounted(() => {
 			if (offsetX.value !== 0) {
 				changeCurrentTime(offsetX.value);
 			}
-			isPlay.value = true;
+			if (isMove.value) {
+				isPlay.value = true;
+			}
+			isMove.value = false;
 			startX.value = 0;
 			startProcess.value = 0;
 			offsetX.value = 0;
