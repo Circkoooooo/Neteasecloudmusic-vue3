@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { HomePageBanner } from '~/types/PageHome/HomePageBanner';
-import { HomePageRecommendMusicList, HomePageRecommendMusicStyleList } from '~/types/PageHome/HomePageRecommendMusicList';
+import type { HomePageBanner } from '~/types/PageHome/HomePageBanner';
+import type { HomePageRecommendMusicList, HomePageRecommendMusicStyleList } from '~/types/PageHome/HomePageRecommendMusicList';
 
 const useBannerStore = defineStore('bannerStore', {
 	state: (): {

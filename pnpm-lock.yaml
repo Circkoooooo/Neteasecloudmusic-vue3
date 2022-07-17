@@ -29,7 +29,6 @@ specifiers:
   vue-tsc: ^0.34.7
 
 dependencies:
-  '@types/node': 18.0.3
   axios: 0.27.2
   concurrently: 7.2.2
   pinia: 2.0.16_j6bzmzd4ujpabbp5objtwxyjp4
@@ -37,6 +36,7 @@ dependencies:
   vue-router: 4.1.2_vue@3.2.37
 
 devDependencies:
+  '@types/node': 18.0.3
   '@typescript-eslint/eslint-plugin': 5.30.6_2vt5mtrqleafs33qg2bhpmbaqm
   '@typescript-eslint/parser': 5.30.6_4x5o4skxv6sl53vpwefgt23khm
   '@vitejs/plugin-vue': 2.3.3_vite@2.9.14+vue@3.2.37
@@ -396,6 +396,7 @@ packages:
 
   /@types/node/18.0.3:
     resolution: {integrity: sha512-HzNRZtp4eepNitP+BD6k2L6DROIDG4Q0fm4x+dwfsr6LGmROENnok75VGw40628xf+iR24WeMFcHuuBDUAzzsQ==}
+    dev: true
 
   /@types/plist/3.0.2:
     resolution: {integrity: sha512-ULqvZNGMv0zRFvqn8/4LSPtnmN4MfhlPNtJCTpKuIIxGVGZ2rYWzFXrvEBoh9CVyqSE7D6YFRJ1hydLHI6kbWw==}

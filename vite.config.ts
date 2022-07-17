@@ -4,6 +4,11 @@ import * as path from 'path';
 
 export default defineConfig({
 	base: './',
+	resolve: {
+		alias: {
+			'~': path.resolve(__dirname, 'src'),
+		},
+	},
 	plugins: [vue()],
 	build: {
 		rollupOptions: {
@@ -16,11 +21,6 @@ export default defineConfig({
 				entryFileNames: '[name].js',
 				dir: './dist',
 			},
-		},
-	},
-	resolve: {
-		alias: {
-			'~': path.resolve(__dirname, './src'),
 		},
 	},
 	css: {

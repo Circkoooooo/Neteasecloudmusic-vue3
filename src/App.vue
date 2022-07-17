@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import '~/styles/page.less';
-import useUserStore from '~/store/UserStore';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 import UserProfile from '~/components/UserProfile/UserProfile.vue';
-import getLoginStatus from './composables/login';
+import useUserStore from '~/store/UserStore';
+import getLoginStatus from '~/composables/login';
 
 const userStore = useUserStore();
 

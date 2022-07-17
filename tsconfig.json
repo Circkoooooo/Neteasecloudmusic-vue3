@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"baseUrl": ".",
 		"target": "esnext",
 		"useDefineForClassFields": true,
 		"module": "esnext",
@@ -14,15 +15,10 @@
 		"skipLibCheck": true,
 		"types": ["node"],
 		"paths": {
-			"~/*": ["./src/*"]
+			"~/*": ["src/*"]
 		}
 	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.d.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue",
-		"src/store/electronStore.js"
-	],
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+	"exclude": ["dist", "node_modules"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }
