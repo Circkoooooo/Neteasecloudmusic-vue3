@@ -1,15 +1,16 @@
 <script lang="ts" setup>
+import './MusicListDetail.less';
 import { computed } from 'vue';
 import useMusicDetailStore from '~/store/musicDetail';
 
 const musicDetailStore = useMusicDetailStore();
-const songs = computed(() => musicDetailStore.songs);
-
-(function initSongs() {
+const songs = computed(() => {
 	if (musicDetailStore.loadedListId !== musicDetailStore.loadingListId) {
-		musicDetailStore.songs = [];
+		return [];
 	}
-}());
+	return musicDetailStore.songs;
+});
+
 </script>
 
 <template>

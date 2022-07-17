@@ -74,6 +74,7 @@ onMounted(() => {
 	.main_content {
 		display: flex;
 		height: 100%;
+		overflow: hidden;
 	}
 
 	.main_fix {
