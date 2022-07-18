@@ -11,7 +11,9 @@ const userProfile = computed(() => user.profile);
 	<div class="user_profile">
 		<div class="avatar">
 			<img :src="userProfile?.avatarUrl"
-					alt="">
+					v-if="userProfile?.avatarUrl">
+			<img src="../../assets/logo.png"
+					v-else>
 		</div>
 		<div class="nickname">
 			{{ userProfile?.nickname }}

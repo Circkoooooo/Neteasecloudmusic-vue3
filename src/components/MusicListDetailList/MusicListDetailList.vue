@@ -10,7 +10,6 @@ withDefaults(defineProps<{
 
 <template>
 	<div class="musiclistdetail_list">
-
 		<div v-for="(song, key) in songs"
 				:key="song.id">
 			<MusicItem :musicInfo="song"

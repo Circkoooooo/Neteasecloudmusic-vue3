@@ -3,8 +3,10 @@ import { computed } from 'vue';
 import { MusicInfo } from '~/types/Music/MusicInfo';
 import './MusicItem.less';
 import useMusicPlayerStore from '~/store/musicPlayerStore';
+import useUserLikeListStore from '~/store/userLikeListStore';
 
 const { nextMusic } = useMusicPlayerStore();
+const userLikeListStore = useUserLikeListStore();
 
 const props = withDefaults(defineProps<{
 	index: number,
@@ -12,6 +14,7 @@ const props = withDefaults(defineProps<{
 }>(), {});
 
 const singer = computed(() => props.musicInfo.ar.map((item) => item.name).join('/'));
+const like = computed(() => userLikeListStore.likeList.includes(props.musicInfo.id));
 </script>
 
 <template>
@@ -29,6 +32,7 @@ const singer = computed(() => props.musicInfo.ar.map((item) => item.name).join('
 				<div class="title">{{ musicInfo.name }}</div>
 				<div class="singer">{{ singer }}</div>
 			</div>
+			{{ like ? '喜欢' : "no" }}
 		</div>
 	</div>
 </template>

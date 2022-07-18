@@ -8,4 +8,8 @@ export default {
 	getMusicRecommendLogin: 'recommend/resource',
 	getMusicRecommend: 'personalized',
 	getMusicListDetail: '/playlist/detail',
+	// 听歌打卡
+	scrobble: 'scrobble',
+	like: 'like',
+	likelist: 'likelist',
 };

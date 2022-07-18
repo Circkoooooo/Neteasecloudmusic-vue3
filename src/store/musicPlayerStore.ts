@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
-import { MuiscPlayerType } from '~/types/Music/MusicPlayer';
+import { MusicPlayerType } from '~/types/Music/MusicPlayer';
 
-const useMusicPlayerStore = defineStore('music-player', {
-	state: (): MuiscPlayerType => ({} as MuiscPlayerType),
+const useMusicPlayerStore = defineStore('musicPlayerStore', {
+	state: (): MusicPlayerType => ({} as MusicPlayerType),
 });
 
 export default useMusicPlayerStore;

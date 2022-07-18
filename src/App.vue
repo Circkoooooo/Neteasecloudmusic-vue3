@@ -6,11 +6,14 @@ import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 import UserProfile from '~/components/UserProfile/UserProfile.vue';
 import useUserStore from '~/store/userStore';
+import useUserLikeListStore from './store/userLikeListStore';
 import getLoginStatus from '~/composables/login';
+import saveUserLikeList from './composables/saveUserLikeList';
 
 const router = useRouter();
-
 const userStore = useUserStore();
+const userLikeListStore = useUserLikeListStore();
+
 const menuConfig = [
 	{
 		menuItem: [
@@ -34,13 +37,17 @@ const menuConfig = [
 		],
 	},
 ];
-// getLoginStatus if login, set profile and account info to pinia.
-getLoginStatus().then((res) => {
-	if (res !== null) {
-		userStore.account = res.account;
-		userStore.profile = res.profile;
-	}
-});
+// get userLikeListStore+
+(function preload() {
+	// getLoginStatus if login, set profile and account info to pinia.
+	getLoginStatus().then((res) => {
+		if (res !== null) {
+			userStore.account = res.account;
+			userStore.profile = res.profile;
+			saveUserLikeList(res.account.id);
+		}
+	});
+}());
 
 onMounted(() => {
 	router.push('/');

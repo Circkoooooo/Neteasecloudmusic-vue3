@@ -1,7 +1,7 @@
 import { Router } from 'vue-router';
 import axios from 'axios';
 import postUrl from '~/axios/postUrl';
-import useMusicDetailStore from '~/store/musicDetail';
+import useMusicDetailStore from '~/store/musicDetailStore';
 
 const musicDetailStore = useMusicDetailStore();
 // TODO: 请求并跳转到歌单页面，将内容用pinia来显示。

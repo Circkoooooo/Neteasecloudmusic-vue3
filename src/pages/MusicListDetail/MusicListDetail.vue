@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import './MusicListDetail.less';
 import { computed } from 'vue';
-import useMusicDetailStore from '~/store/musicDetail';
+import useMusicDetailStore from '~/store/musicDetailStore';
 import MusicListDetailList from '~/components/MusicListDetailList/MusicListDetailList.vue';
 import MusicListDetailListInfo from '~/components/MusicListDetailInfo/MusicListDetailListInfo.vue';
 

@@ -4,17 +4,24 @@ import {
 	Ref, ref, watch,
 } from 'vue';
 import postUrl from '~/axios/postUrl';
+import useMusicDetailStore from '~/store/musicDetailStore';
+import useUserLikeListStore from '~/store/userLikeListStore';
+import useUserStore from '~/store/UserStore';
 import { MusicInfo } from '~/types/Music/MusicInfo';
-import { MuiscPlayerType } from '~/types/Music/MusicPlayer';
+import { MusicPlayerType } from '~/types/Music/MusicPlayer';
+import saveUserLikeList from './saveUserLikeList';
 
 const storageNamespace = {
 	musicInfo: 'currentMusicInfo',
 	musicPlayStatus: 'musicPlayStatus',
 	musicId: 'musicId',
 };
-const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MuiscPlayerType => {
+const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerType => {
+	const musicDetailStore = useMusicDetailStore();
+	const userStore = useUserStore();
+
 	const musicInfoObj = reactive<{
-		musicUrl:string,
+		musicUrl:string, // current music
 		musicId: number,
 		musicInfo: MusicInfo | null
 		musicPlayStatus: {
@@ -97,12 +104,27 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MuiscPlayerTy
 		);
 	};
 
+	// update listen data
+	const scrobble = () => {
+		let sourceId = musicDetailStore.playlist.id;
+		if (!sourceId) {
+			sourceId = musicInfoObj.musicInfo!.al.id;
+		}
+		axios.post(postUrl.scrobble, null, {
+			params: {
+				id: musicInfoObj.musicId,
+				sourceId,
+				time: Math.ceil(musicInfoObj.musicPlayStatus.musicCurrentTime),
+			},
+		});
+	};
 	// be excuted after loadmusic
 	const play = (currentTime:number, playNow:boolean, callBack:()=>void) => {
 		if (musicSource.value === null) return;
 		musicSource.value!.src = musicInfoObj.musicUrl;
 		musicSource.value!.currentTime = currentTime;
 		musicSource.value.oncanplay = () => {
+			scrobble();
 			if (playNow) {
 				isPlay.value = playNow;
 			}
@@ -185,7 +207,26 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MuiscPlayerTy
 
 	const nextMusic = (musicId: number) => {
 		if (musicSource.value === null) return;
+		scrobble();
 		loadMusic(musicId, true);
+	};
+
+	const like = async (liked:boolean) => {
+		const id = musicInfoObj.musicId;
+		const timestamp = new Date().getTime();
+		if (id) {
+			axios.post(postUrl.like, null, {
+				params: {
+					id,
+					like: !liked,
+					timestamp,
+				},
+			}).then((res) => {
+				if (res.data.code === 200 && userStore.account?.id) {
+					saveUserLikeList(userStore.account.id);
+				}
+			});
+		}
 	};
 
 	return {
@@ -201,7 +242,9 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MuiscPlayerTy
 		getMusicIdStorage,
 		changeCurrentTime,
 		nextMusic,
-	} as MuiscPlayerType;
+		scrobble,
+		like,
+	} as MusicPlayerType;
 };
 
 export default useMusicPlayer;
