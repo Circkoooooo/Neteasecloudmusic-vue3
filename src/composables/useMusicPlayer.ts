@@ -5,14 +5,14 @@ import {
 } from 'vue';
 import postUrl from '~/axios/postUrl';
 import { MusicInfo } from '~/types/Music/MusicInfo';
+import { MuiscPlayerType } from '~/types/Music/MusicPlayer';
 
 const storageNamespace = {
 	musicInfo: 'currentMusicInfo',
 	musicPlayStatus: 'musicPlayStatus',
 	musicId: 'musicId',
 };
-
-const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
+const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MuiscPlayerType => {
 	const musicInfoObj = reactive<{
 		musicUrl:string,
 		musicId: number,
@@ -104,15 +104,12 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		musicSource.value!.currentTime = currentTime;
 		musicSource.value.oncanplay = () => {
 			if (playNow) {
-				isPlay.value = true;
+				isPlay.value = playNow;
 			}
 		};
 		callBack();
 	};
 
-	// const onPause = () => {
-	// 	isPlay.value = false;
-	// };
 	// use to ontimeupdate event
 	const onTimeUpdate = () => {
 		const duration = musicSource.value?.duration;
@@ -124,21 +121,22 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		}
 	};
 
-	const loadMusic = async (musicId: number, playNow:boolean, currentTime:number = 0) => {
+	const loadMusic = async (musicId: number, playNow: boolean, currentTime: number = 0) => {
+		isPlay.value = false;
 		// storageMusicPlayStatus
 		if (musicSource.value === null) return;
 
-		const url = await axios.post(postUrl.getMusicUrlById, {
-			id: musicId,
+		const url = await axios.post(postUrl.getMusicUrlById, null, {
+			params: {
+				id: musicId,
+			},
 		}).then((res) => res.data.data[0].url);
-
 		const musicInfoTemp = await axios.post(postUrl.getMusicInfoByIds, null, {
 			params: {
 				ids: musicId,
 			},
 		}).then((res) => res.data.songs[0]);
 		musicInfoObj.musicUrl = url;
-
 		// saveStorage
 		saveMusicInfoStorage();
 		saveMusicPlayStatusStorage();
@@ -184,6 +182,12 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		isPlay.value = false;
 		musicInfoObj.musicPlayStatus.musicCurrentTime = musicInfoObj.musicPlayStatus.musicDuration;
 	};
+
+	const nextMusic = (musicId: number) => {
+		if (musicSource.value === null) return;
+		loadMusic(musicId, true);
+	};
+
 	return {
 		isPlay,
 		musicInfoObj,
@@ -196,7 +200,8 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>) => {
 		getMusicPlayStatusStorage,
 		getMusicIdStorage,
 		changeCurrentTime,
-	};
+		nextMusic,
+	} as MuiscPlayerType;
 };
 
 export default useMusicPlayer;

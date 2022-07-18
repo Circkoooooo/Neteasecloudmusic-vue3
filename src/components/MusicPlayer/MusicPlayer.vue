@@ -5,6 +5,8 @@ import {
 } from 'vue';
 import useMusicPlayer from '~/composables/useMusicPlayer';
 import timeFormat from '~/utils/timeFormat';
+import useMusicPlayerStore from '~/store/musicPlayerStore';
+import { MuiscPlayerType } from '~/types/Music/MusicPlayer';
 
 // FIXME:在无歌曲状态下，拖动滚动条，会导致音乐播放按钮变成播放状态。
 const audio = ref<HTMLAudioElement | null>(null);
@@ -14,7 +16,9 @@ const startX = ref(0);
 const startProcess = ref(0);
 const offsetX = ref(0);
 const isMove = ref(false);
+const musicPlayerStore = useMusicPlayerStore();
 
+const musicPlayer = useMusicPlayer(audio);
 const {
 	isPlay,
 	loadStorage,
@@ -25,7 +29,10 @@ const {
 	getMusicInfoStorage,
 	getMusicPlayStatusStorage,
 	changeCurrentTime,
-} = useMusicPlayer(audio);
+	nextMusic,
+} = musicPlayer;
+
+musicPlayerStore.nextMusic = nextMusic;
 
 (function loadStorageMusicInfoAndStatus() {
 	const data = getMusicInfoStorage();

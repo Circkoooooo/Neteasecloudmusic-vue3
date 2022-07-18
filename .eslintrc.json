@@ -12,6 +12,7 @@
 	"plugins": ["vue", "@typescript-eslint"],
 	"rules": {
 		"no-tabs": "off",
+		"no-unused-vars": "warn",
 		"indent": ["error", "tab"],
 		"linebreak-style": "off",
 		"import/no-extraneous-dependencies": "off",

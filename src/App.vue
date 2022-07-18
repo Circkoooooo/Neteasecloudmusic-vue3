@@ -67,6 +67,7 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .main {
+	background-color: rgba(@main-color-RGB, 0.05);
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -86,7 +87,7 @@ onMounted(() => {
 .slidebar {
 	min-width: 216px;
 	height: 100%;
-	background-color: @layoutback-color;
+	background-color: white;
 }
 
 .content {

@@ -2,6 +2,9 @@
 import { computed } from 'vue';
 import { MusicInfo } from '~/types/Music/MusicInfo';
 import './MusicItem.less';
+import useMusicPlayerStore from '~/store/musicPlayerStore';
+
+const { nextMusic } = useMusicPlayerStore();
 
 const props = withDefaults(defineProps<{
 	index: number,
@@ -12,7 +15,8 @@ const singer = computed(() => props.musicInfo.ar.map((item) => item.name).join('
 </script>
 
 <template>
-	<div class="music_item">
+	<div class="music_item"
+			@dblclick="nextMusic(musicInfo.id)">
 		<div class="music_showlist">
 			<div class="number">
 				{{ index }}
