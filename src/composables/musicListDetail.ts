@@ -16,10 +16,10 @@ export default async (musicListId: number, router: Router, path: string) => {
 		})
 		.then((res) => {
 			if (res.data.code === 200) {
-				musicDetailStore.playList = res.data.playlist;
+				musicDetailStore.playlist = res.data.playlist;
 			}
 		});
-	const { trackIds } = musicDetailStore.playList;
+	const { trackIds } = musicDetailStore.playlist;
 
 	let requestTracks = '';
 	if (trackIds.length !== 0) {

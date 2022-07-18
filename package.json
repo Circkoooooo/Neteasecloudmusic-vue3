@@ -5,7 +5,7 @@
 	"main": "./dist/main.js",
 	"scripts": {
 		"electron:serve": "concurrently \"npm run dev\" \"npm run electron:start\"",
-		"electron:start": "electron ./main.js",
+		"electron:start": "electron ./electron/main.js",
 		"electron:pkg": "electron-builder",
 		"commit": "git cz",
 		"dev": "vite",
@@ -41,11 +41,13 @@
 	"dependencies": {
 		"axios": "^0.27.2",
 		"concurrently": "^7.2.2",
+		"electron-store": "^8.0.2",
 		"pinia": "^2.0.16",
 		"vue": "^3.2.25",
 		"vue-router": "4"
 	},
 	"devDependencies": {
+		"@types/electron-store": "^3.2.0",
 		"@types/node": "^18.0.3",
 		"@typescript-eslint/eslint-plugin": "^5.30.6",
 		"@typescript-eslint/parser": "^5.30.6",

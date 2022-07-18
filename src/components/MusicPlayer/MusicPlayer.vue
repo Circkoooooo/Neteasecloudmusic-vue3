@@ -6,6 +6,7 @@ import {
 import useMusicPlayer from '~/composables/useMusicPlayer';
 import timeFormat from '~/utils/timeFormat';
 
+// FIXME:在无歌曲状态下，拖动滚动条，会导致音乐播放按钮变成播放状态。
 const audio = ref<HTMLAudioElement | null>(null);
 const headBtn = ref<HTMLElement | null>(null);
 const processBar = ref<HTMLElement | null>(null);

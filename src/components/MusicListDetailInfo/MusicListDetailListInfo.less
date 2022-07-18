@@ -1,0 +1,42 @@
+.musiclistdetail_info {
+	height: 240px;
+	padding: 32px;
+	display: flex;
+
+	.list_cover {
+		height: 100%;
+
+		aspect-ratio: 1/1;
+		border-radius: 8px;
+		overflow: hidden;
+
+		img {
+			height: 100%;
+		}
+	}
+
+	.list_info {
+		flex: 1;
+		overflow: hidden;
+		padding: 0 24px 0 24px;
+
+		.list_title {
+			font-weight: bold;
+			font-size: 24px;
+			margin-bottom: 8px;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			-webkit-box-orient: vertical;
+		}
+
+		.list_description {
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			-webkit-box-orient: vertical;
+		}
+	}
+}

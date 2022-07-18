@@ -2,6 +2,8 @@
 import './MusicListDetail.less';
 import { computed } from 'vue';
 import useMusicDetailStore from '~/store/musicDetail';
+import MusicListDetailList from '~/components/MusicListDetailList/MusicListDetailList.vue';
+import MusicListDetailListInfo from '~/components/MusicListDetailInfo/MusicListDetailListInfo.vue';
 
 const musicDetailStore = useMusicDetailStore();
 const songs = computed(() => {
@@ -15,8 +17,10 @@ const songs = computed(() => {
 
 <template>
 	<div class="musiclist_detail">
-		<div v-if="songs.length === 0">加载中</div>
-		<div v-for="song in songs"
-				:key="song.id">{{ song.name }}</div>
+		<!-- loading -->
+		<div class="detail_inner">
+			<MusicListDetailListInfo :playList="musicDetailStore.playlist"></MusicListDetailListInfo>
+			<MusicListDetailList :songs="songs"> </MusicListDetailList>
+		</div>
 	</div>
 </template>

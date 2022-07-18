@@ -14,7 +14,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				bundle: './src/main.ts',
-				main: './main.js',
+				main: './electron/main.js',
 				index: './index.html',
 			},
 			output: {

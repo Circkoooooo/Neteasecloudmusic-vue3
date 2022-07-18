@@ -4,12 +4,12 @@ import { MusicInfo } from '~/types/Music/MusicInfo';
 
 const useMusicDetailStore = defineStore('detailStore', {
 	state: (): {
-		playList: DetailMusicPlayList;
+		playlist: DetailMusicPlayList;
 		songs: MusicInfo[];
 		loadedListId: number;
 		loadingListId: number;
 	} => ({
-		playList: {} as DetailMusicPlayList,
+		playlist: {} as DetailMusicPlayList,
 		songs: [] as MusicInfo[],
 		loadedListId: 0,
 		loadingListId: 0,

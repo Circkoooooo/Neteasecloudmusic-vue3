@@ -91,6 +91,16 @@ onMounted(() => {
 
 .content {
 	flex: 1;
-	overflow: hidden;
+	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		border-radius: 8px;
+		background: rgba(0, 0, 0, 0.3);
+	}
+
 }
 </style>

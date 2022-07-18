@@ -12,6 +12,7 @@ const createWindow = () => {
 			contextIsolation: false,
 		},
 	});
+
 	if (process.env.npm_lifecycle_event === 'electron:start') {
 		win.loadURL('http://localhost:3000');
 		win.webContents.openDevTools();
