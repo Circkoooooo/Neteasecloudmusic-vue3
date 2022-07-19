@@ -106,15 +106,17 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 
 	// update listen data
 	const scrobble = () => {
-		let sourceId = musicDetailStore.playlist.id;
+		let sourceId = musicDetailStore.loadedListId;
 		if (!sourceId) {
 			sourceId = musicInfoObj.musicInfo!.al.id;
 		}
+		const timestamp = new Date().getTime();
 		axios.post(postUrl.scrobble, null, {
 			params: {
 				id: musicInfoObj.musicId,
 				sourceId,
 				time: Math.ceil(musicInfoObj.musicPlayStatus.musicCurrentTime),
+				timestamp,
 			},
 		});
 	};
