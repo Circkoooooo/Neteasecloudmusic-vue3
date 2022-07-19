@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Ref } from 'vue';
 import { MusicInfo } from './MusicInfo';
 

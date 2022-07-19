@@ -5,14 +5,13 @@ import '~/styles/page.less';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 import UserProfile from '~/components/UserProfile/UserProfile.vue';
+import PlayList from '~/components/PlayList/PlayList.vue';
 import useUserStore from '~/store/userStore';
-import useUserLikeListStore from './store/userLikeListStore';
 import getLoginStatus from '~/composables/login';
 import saveUserLikeList from './composables/saveUserLikeList';
 
 const router = useRouter();
 const userStore = useUserStore();
-const userLikeListStore = useUserLikeListStore();
 
 const menuConfig = [
 	{
@@ -67,7 +66,10 @@ onMounted(() => {
 			</div>
 		</div>
 		<div class="main_fix">
-			<MusicPlayer></MusicPlayer>
+			<keep-alive>
+				<MusicPlayer key="musicpalyer"></MusicPlayer>
+			</keep-alive>
+			<PlayList></PlayList>
 		</div>
 	</div>
 </template>

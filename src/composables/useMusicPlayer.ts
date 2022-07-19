@@ -5,7 +5,6 @@ import {
 } from 'vue';
 import postUrl from '~/axios/postUrl';
 import useMusicDetailStore from '~/store/musicDetailStore';
-import useUserLikeListStore from '~/store/userLikeListStore';
 import useUserStore from '~/store/UserStore';
 import { MusicInfo } from '~/types/Music/MusicInfo';
 import { MusicPlayerType } from '~/types/Music/MusicPlayer';
@@ -16,6 +15,7 @@ const storageNamespace = {
 	musicPlayStatus: 'musicPlayStatus',
 	musicId: 'musicId',
 };
+
 const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerType => {
 	const musicDetailStore = useMusicDetailStore();
 	const userStore = useUserStore();
@@ -160,16 +160,20 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 		}).then((res) => res.data.songs[0]);
 		musicInfoObj.musicUrl = url;
 		// saveStorage
-		saveMusicInfoStorage();
-		saveMusicPlayStatusStorage();
-		saveMusicIdStorage();
 		play(currentTime, playNow, () => {
 			musicInfoObj.musicInfo = musicInfoTemp;
 			musicInfoObj.musicPlayStatus.musicCurrentTime = currentTime;
 			musicInfoObj.musicId = musicId;
+			saveMusicInfoStorage();
+			saveMusicPlayStatusStorage();
+			saveMusicIdStorage();
 		});
 	};
 
+	/**
+	 * play a music use the music data in localstorage
+	 * @returns
+	 */
 	const loadStorage = () => {
 		const playStatus = getMusicPlayStatusStorage();
 		if (playStatus !== null) {

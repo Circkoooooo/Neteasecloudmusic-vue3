@@ -6,6 +6,7 @@ import { MusicInfo } from '~/types/Music/MusicInfo';
 withDefaults(defineProps<{
 	songs: MusicInfo[]
 }>(), {});
+
 </script>
 
 <template>
