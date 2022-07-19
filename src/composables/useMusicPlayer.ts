@@ -148,6 +148,10 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 		// storageMusicPlayStatus
 		if (musicSource.value === null) return;
 
+		musicInfoObj.musicInfo!.al.picUrl = '';
+		musicInfoObj.musicInfo!.name = '加载中';
+		musicInfoObj.musicInfo!.ar = [{ id: 0, name: '加载中' }];
+
 		const url = await axios.post(postUrl.getMusicUrlById, null, {
 			params: {
 				id: musicId,

@@ -7,6 +7,7 @@ import useMusicPlayer from '~/composables/useMusicPlayer';
 import timeFormat from '~/utils/timeFormat';
 import useMusicPlayerStore from '~/store/musicPlayerStore';
 import useUserLikeListStore from '~/store/userLikeListStore';
+import usePlayListStore from '~/store/playListStore';
 
 // FIXME:在无歌曲状态下，拖动滚动条，会导致音乐播放按钮变成播放状态。
 const audio = ref<HTMLAudioElement | null>(null);
@@ -18,6 +19,7 @@ const offsetX = ref(0);
 const isMove = ref(false);
 const musicPlayerStore = useMusicPlayerStore();
 const userLikeListStore = useUserLikeListStore();
+const playListStore = usePlayListStore();
 
 const musicPlayer = useMusicPlayer(audio);
 const {
@@ -59,7 +61,7 @@ const musicInfo = computed(() => {
 		} = musicInfoObj.musicInfo;
 		const { picUrl } = al;
 		const author = ar.map((item) => item.name).join('/');
-		if (name && id && picUrl && author) {
+		if (name && id && author) {
 			musicShowInfo = {
 				musicName: name,
 				musicId: id,
@@ -90,6 +92,10 @@ const headBtnMove = (event: MouseEvent) => {
 
 const isLike = computed(() => userLikeListStore.likeList.includes(musicInfo.value.musicId));
 
+const changePlayList = () => {
+	playListStore.isShow = !playListStore.isShow;
+};
+
 onMounted(() => {
 	loadStorage();
 	headBtn.value!.onmousedown = (startEvent: MouseEvent) => {
@@ -113,6 +119,7 @@ onMounted(() => {
 		};
 	};
 });
+
 </script>
 
 <template>
@@ -124,7 +131,7 @@ onMounted(() => {
 			<div class="music_cover">
 				<img src="../../assets/logo.png"
 						class="music_cover"
-						v-if="musicInfo.musicPicUrl === ''">
+						v-if="!musicInfo.musicPicUrl">
 				<img :src="
 				musicInfo.musicPicUrl"
 						class="music_cover"
@@ -179,9 +186,10 @@ onMounted(() => {
 			</span>
 		</div>
 		<div class="music_handler_menu">
-			<!-- TODO:音量 -->
-			<div class="music_list">
-				<img src="../../assets/music-list.png">
+			<div class="music_list"
+					@click="changePlayList">
+				<img src="../../assets/music-list.png"
+						id="music-list-btn">
 			</div>
 		</div>
 	</div>

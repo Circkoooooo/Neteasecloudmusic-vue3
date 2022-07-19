@@ -1,0 +1,16 @@
+.playlist {
+	height: 100%;
+	width: 300px;
+	background-color: @playlist-color;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 1;
+	transform: translateX(100%);
+	transition: @default-transition;
+}
+
+.playlist_show {
+	border-left: @border;
+	transform: translateX(0);
+}

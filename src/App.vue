@@ -64,12 +64,13 @@ onMounted(() => {
 			<div class="content">
 				<router-view></router-view>
 			</div>
+			<PlayList></PlayList>
 		</div>
 		<div class="main_fix">
 			<keep-alive>
-				<MusicPlayer key="musicpalyer"></MusicPlayer>
+				<component name="musicplayer"
+						:is="MusicPlayer"></component>
 			</keep-alive>
-			<PlayList></PlayList>
 		</div>
 	</div>
 </template>
@@ -85,18 +86,12 @@ onMounted(() => {
 		display: flex;
 		height: 100%;
 		overflow: hidden;
+		position: relative;
 	}
 
 	.main_fix {
 		height: 80px;
-		position: relative;
 	}
-}
-
-.slidebar {
-	min-width: 216px;
-	height: 100%;
-	background-color: white;
 }
 
 .content {
