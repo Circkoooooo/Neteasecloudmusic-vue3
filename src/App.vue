@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import '~/styles/page.less';
 import '~/styles/animate.less';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
@@ -12,9 +12,12 @@ import getLoginStatus from '~/composables/login';
 import saveUserLikeList from './composables/saveUserLikeList';
 import routerNamespace from './router/routerNamespace';
 import MenuConfigType from './types/Menu/MenuConfigType';
+import useUserLikeListStore from './store/userLikeListStore';
+import userLikeList from './composables/userLikeList';
 
 const router = useRouter();
 const userStore = useUserStore();
+const userLikeListStore = useUserLikeListStore();
 
 const menuConfig: MenuConfigType[] = [
 	{
@@ -64,6 +67,17 @@ const menuConfig: MenuConfigType[] = [
 
 onMounted(() => {
 	router.push('/');
+});
+
+watch(userStore, () => {
+	if (userStore.account !== null && userStore.profile !== null) {
+		userLikeList(userStore.account.id);
+	}
+});
+watch(userLikeListStore, () => {
+	if (userLikeListStore.likeListMusicList.length !== 0) {
+		userLikeListStore.isLoading = false;
+	}
 });
 </script>
 

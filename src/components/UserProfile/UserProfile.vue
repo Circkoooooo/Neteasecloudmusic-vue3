@@ -5,6 +5,7 @@ import userStore from '~/store/UserStore';
 
 const user = userStore();
 const userProfile = computed(() => user.profile);
+
 </script>
 
 <template>
