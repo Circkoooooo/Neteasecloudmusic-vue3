@@ -4,7 +4,6 @@ import postUrl from '~/axios/postUrl';
 import useMusicDetailStore from '~/store/musicDetailStore';
 import useSlideBarStore from '~/store/slideBarStore';
 
-// TODO: 请求并跳转到歌单页面，将内容用pinia来显示。
 export default async (musicListId: number, router: Router, path: string) => {
 	const musicDetailStore = useMusicDetailStore();
 	const slideBarStore = useSlideBarStore();
