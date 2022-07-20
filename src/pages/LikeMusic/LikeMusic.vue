@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import musicListDetail from '~/composables/musicListDetail';
+
 </script>
 <template>
 	<div class="like_music">
-		123
 	</div>
 </template>

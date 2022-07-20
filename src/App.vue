@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import '~/styles/page.less';
 import '~/styles/animate.less';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
@@ -11,11 +11,12 @@ import useUserStore from '~/store/userStore';
 import getLoginStatus from '~/composables/login';
 import saveUserLikeList from './composables/saveUserLikeList';
 import routerNamespace from './router/routerNamespace';
+import MenuConfigType from './types/Menu/MenuConfigType';
 
 const router = useRouter();
 const userStore = useUserStore();
 
-const menuConfig = [
+const menuConfig: MenuConfigType[] = [
 	{
 		menuItem: [
 			{
@@ -43,6 +44,7 @@ const menuConfig = [
 			{
 				link: routerNamespace.LikeMusic.path,
 				title: '我喜欢的音乐',
+				show: computed(() => userStore.profile !== null && userStore.account !== null),
 			},
 		],
 	},

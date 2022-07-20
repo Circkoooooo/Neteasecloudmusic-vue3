@@ -1,20 +1,13 @@
 <script lang="ts" setup>
 import './SlideBar.less';
 import { useRoute, useRouter } from 'vue-router';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import MenuConfigType from '~/types/Menu/MenuConfigType';
 
 const route = useRoute();
 const router = useRouter();
 const currentIndex = ref<Array<number>>([0, 0]);
 
-interface MenuConfigType {
-	menuTitle?: string,
-	menuItem: {
-		link: string,
-		iconPath?: string,
-		title: string,
-	}[]
-}
 const props = withDefaults(defineProps<{ menuConfig: MenuConfigType[] }>(), {});
 
 const linkTo = (link: string) => {
@@ -68,16 +61,21 @@ watch(
 			<div class="submenu"
 					v-for="(item, index) in menuConfig"
 					:key="index">
-				<div class="item title"
-						v-if="item.menuTitle">{{ item.menuTitle }}
-				</div>
-				<div class="item menuItem"
-						:class="{ select: index === currentIndex[0] && childIndex === currentIndex[1] }"
-						v-for="(child, childIndex) in item.menuItem"
-						:key="childIndex"
-						@click="linkTo(child.link)">
-					{{ child.title }}
-				</div>
+				<template v-if="item.menuItem.some(
+					(config => config.show?.value === undefined || config.show?.value)
+				)">
+					<div class="item title"
+							v-if="item.menuTitle">{{ item.menuTitle }}
+					</div>
+					<div class="item menuItem"
+							:class="{ select: index === currentIndex[0] && childIndex === currentIndex[1] }"
+							v-for="(child, childIndex) in item.menuItem"
+							v-show="child.show?.value === undefined || child.show?.value"
+							:key="childIndex"
+							@click="linkTo(child.link)">
+						{{ child.title }}
+					</div>
+				</template>
 			</div>
 		</div>
 	</div>
