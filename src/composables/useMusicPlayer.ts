@@ -217,7 +217,6 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 
 	const nextMusic = (musicId: number) => {
 		if (musicSource.value === null) return;
-		scrobble();
 		loadMusic(musicId, true);
 	};
 
