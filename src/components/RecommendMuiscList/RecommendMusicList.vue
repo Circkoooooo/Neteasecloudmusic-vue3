@@ -4,6 +4,7 @@ import './RecommendMusicList.less';
 import { onMounted, ref } from 'vue';
 import musicListDetail from '~/composables/musicListDetail';
 import { RecommendMusicList } from '~/types/Music/RecommendMusicList';
+import routerNamespace from '~/router/routerNamespace';
 
 const router = useRouter();
 const rcmdList = ref<HTMLElement>();
@@ -24,6 +25,7 @@ onMounted(() => {
 		};
 	}
 });
+
 </script>
 
 <template>
@@ -32,7 +34,7 @@ onMounted(() => {
 		<div class="rcmd_music"
 				v-for="rcmdMusic in recommendList"
 				:key="rcmdMusic.id"
-				@click="musicListDetail(rcmdMusic.id, router, '\/musicdetail')">
+				@click="musicListDetail(rcmdMusic.id, router, routerNamespace.ListDetail.path)">
 			<div class="img">
 				<img :src="rcmdMusic.picUrl">
 			</div>

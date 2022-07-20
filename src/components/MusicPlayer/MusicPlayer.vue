@@ -34,6 +34,7 @@ const {
 	changeCurrentTime,
 	nextMusic,
 	like,
+	isLoading,
 } = musicPlayer;
 
 musicPlayerStore.nextMusic = nextMusic;
@@ -50,11 +51,20 @@ musicPlayerStore.nextMusic = nextMusic;
 
 const musicInfo = computed(() => {
 	let musicShowInfo = {
-		musicName: '歌曲名字',
+		musicName: '歌曲',
 		musicId: 0,
 		musicPicUrl: '',
 		musicAuthor: '歌手',
 	};
+	if (isLoading.value) {
+		musicShowInfo = {
+			musicName: '加载中',
+			musicId: 0,
+			musicPicUrl: '',
+			musicAuthor: '加载中',
+		};
+		return musicShowInfo;
+	}
 	if (musicInfoObj.musicInfo) {
 		const {
 			name, id, ar, al,
@@ -70,6 +80,7 @@ const musicInfo = computed(() => {
 			};
 		}
 	}
+
 	return musicShowInfo;
 });
 
@@ -82,6 +93,7 @@ const process = computed(() => {
 });
 
 const headBtnMove = (event: MouseEvent) => {
+	if (isLoading.value) return;
 	const ofx = event.clientX - startX.value;
 	offsetX.value = startProcess.value + ofx;
 	if (offsetX.value > musicInfoObj.musicPlayStatus.musicDuration) {
@@ -93,6 +105,7 @@ const headBtnMove = (event: MouseEvent) => {
 const isLike = computed(() => userLikeListStore.likeList.includes(musicInfo.value.musicId));
 
 const changePlayList = () => {
+	if (isLoading.value) return;
 	playListStore.isShow = !playListStore.isShow;
 };
 

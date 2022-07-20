@@ -42,6 +42,7 @@
 		"axios": "^0.27.2",
 		"concurrently": "^7.2.2",
 		"electron-store": "^8.0.2",
+		"loaders.css": "^0.1.2",
 		"pinia": "^2.0.16",
 		"vue": "^3.2.25",
 		"vue-router": "4"

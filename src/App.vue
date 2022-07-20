@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 import '~/styles/page.less';
+import '~/styles/animate.less';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 import UserProfile from '~/components/UserProfile/UserProfile.vue';
@@ -9,6 +10,7 @@ import PlayList from '~/components/PlayList/PlayList.vue';
 import useUserStore from '~/store/userStore';
 import getLoginStatus from '~/composables/login';
 import saveUserLikeList from './composables/saveUserLikeList';
+import routerNamespace from './router/routerNamespace';
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -17,25 +19,35 @@ const menuConfig = [
 	{
 		menuItem: [
 			{
-				link: '/',
+				link: routerNamespace.Home.path,
 				title: '发现音乐',
 			},
 		],
 	},
+	// {
+	// 	menuTitle: '我的音乐',
+	// 	menuItem: [
+	// 		{
+	// 			link: '/localdownload',
+	// 			title: '本地与下载',
+	// 		},
+	// 		{
+	// 			link: '/recentplay',
+	// 			title: '最近播放',
+	// 		},
+	// 	],
+	// },
 	{
-		menuTitle: '我的音乐',
+		menuTitle: '创建的歌单',
 		menuItem: [
 			{
-				link: '/localdownload',
-				title: '本地与下载',
-			},
-			{
-				link: '/recentplay',
-				title: '最近播放',
+				link: routerNamespace.LikeMusic.path,
+				title: '我喜欢的音乐',
 			},
 		],
 	},
 ];
+
 // get userLikeListStore+
 (function preload() {
 	// getLoginStatus if login, set profile and account info to pinia.

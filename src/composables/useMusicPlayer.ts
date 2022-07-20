@@ -15,11 +15,12 @@ const storageNamespace = {
 	musicPlayStatus: 'musicPlayStatus',
 	musicId: 'musicId',
 };
-
 const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerType => {
 	const musicDetailStore = useMusicDetailStore();
+
 	const userStore = useUserStore();
 
+	const isLoading = ref(false);
 	const musicInfoObj = reactive<{
 		musicUrl:string, // current music
 		musicId: number,
@@ -147,12 +148,9 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 
 	const loadMusic = async (musicId: number, playNow: boolean, currentTime: number = 0) => {
 		isPlay.value = false;
+		isLoading.value = true;
 		// storageMusicPlayStatus
 		if (musicSource.value === null) return;
-
-		musicInfoObj.musicInfo!.al.picUrl = '';
-		musicInfoObj.musicInfo!.name = '加载中';
-		musicInfoObj.musicInfo!.ar = [{ id: 0, name: '加载中' }];
 
 		const url = await axios.post(postUrl.getMusicUrlById, null, {
 			params: {
@@ -165,8 +163,10 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 			},
 		}).then((res) => res.data.songs[0]);
 		musicInfoObj.musicUrl = url;
+
 		// saveStorage
 		play(currentTime, playNow, () => {
+			isLoading.value = false;
 			musicInfoObj.musicInfo = musicInfoTemp;
 			musicInfoObj.musicPlayStatus.musicCurrentTime = currentTime;
 			musicInfoObj.musicId = musicId;
@@ -199,7 +199,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 	};
 
 	const changePlayStatusButton = () => {
-		if (musicSource.value === null || !musicSource.value.src) return;
+		if (musicSource.value === null || !musicSource.value.src || isLoading.value) return;
 		isPlay.value = !isPlay.value;
 		// save currentTime every click
 		saveMusicPlayStatusStorage();
@@ -240,6 +240,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 
 	return {
 		isPlay,
+		isLoading,
 		musicInfoObj,
 		loadMusic,
 		loadStorage,

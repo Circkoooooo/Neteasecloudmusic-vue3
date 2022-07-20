@@ -22,8 +22,6 @@ document.onclick = (event: MouseEvent) => {
 			playListStore.isShow = false;
 		}
 	}
-	// console.log(event.clientX);
-	// console.log(event.clientY);
 };
 </script>
 
@@ -33,6 +31,6 @@ document.onclick = (event: MouseEvent) => {
 				playlist_show: isShow
 			}"
 			ref="playList">
-		{{ isShow }}
+
 	</div>
 </template>

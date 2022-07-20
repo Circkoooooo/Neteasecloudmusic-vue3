@@ -8,10 +8,11 @@ type MusicPlayerStatus = {
 }
 export type MusicPlayerType = {
 	isPlay: Ref<boolean>
+	isLoading: Ref<boolean>
 	musicInfoObj:{
 		musicUrl:string,
 		musicId: number,
-		musicInfo: MusicInfo | null
+		musicInfo: MusicInfo| null
 		musicPlayStatus: MusicPlayerStatus
 	},
 	saveMusicInfoStorage: () => void;
