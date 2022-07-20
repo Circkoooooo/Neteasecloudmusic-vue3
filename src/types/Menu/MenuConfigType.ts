@@ -1,13 +1,18 @@
-import { ComputedRef } from 'vue';
+import { DetailMusicSubscriber } from '../Music/DetailMusicSubscriber';
 
-type MenuConfigType = {
-	menuTitle?: string,
-	menuItem: {
-		link: string,
-		iconPath?: string,
-		title: string,
-		show?: ComputedRef<boolean>
-	}[]
+export type MenuConfigItemType = {
+	itemType:'musiclist'|'showpage',
+	link: string,
+	iconPath?: string,
+	title: string,
+	show?:boolean,
+	creator?: DetailMusicSubscriber,
+	musicListName?: string,
+	musicListId?:number,
 }
 
-export default MenuConfigType;
+export type MenuConfigType = {
+	menuType:'findMusic'|'createMusic'|'favoriteList'
+	menuTitle?: string,
+	menuItem:MenuConfigItemType[],
+}

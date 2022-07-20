@@ -12,4 +12,5 @@ export default {
 	scrobble: 'scrobble',
 	like: 'like',
 	likelist: 'likelist',
+	userPlayList: 'user/playlist',
 };

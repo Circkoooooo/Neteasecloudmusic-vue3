@@ -9,6 +9,7 @@ import useUserStore from '~/store/UserStore';
 import { MusicInfo } from '~/types/Music/MusicInfo';
 import { MusicPlayerType } from '~/types/Music/MusicPlayer';
 import saveUserLikeList from './saveUserLikeList';
+import userPlayList from './userPlayList';
 
 const storageNamespace = {
 	musicInfo: 'currentMusicInfo',
@@ -233,6 +234,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 			}).then((res) => {
 				if (res.data.code === 200 && userStore.account?.id) {
 					saveUserLikeList(userStore.account.id);
+					userPlayList(userStore.account.id);
 				}
 			});
 		}

@@ -1,9 +1,11 @@
 .slidebar {
 	min-width: 216px;
+	max-width: 216px;
 	height: 100%;
 	background-color: @slidebar-color;
 	font-size: @slidebar-font-size;
 	border-right: @border;
+	overflow-y: scroll;
 
 	.menu {
 		padding: 8px;
@@ -19,6 +21,7 @@
 				height: 24px;
 				font-size: 12px;
 				line-height: 24px;
+
 			}
 
 			.item.menuItem.select {
@@ -31,6 +34,9 @@
 				line-height: 40px;
 				cursor: pointer;
 				font-weight: bold;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 
 		}

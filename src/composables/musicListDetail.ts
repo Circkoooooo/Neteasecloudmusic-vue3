@@ -2,10 +2,13 @@ import { Router } from 'vue-router';
 import axios from 'axios';
 import postUrl from '~/axios/postUrl';
 import useMusicDetailStore from '~/store/musicDetailStore';
+import useSlideBarStore from '~/store/slideBarStore';
 
-const musicDetailStore = useMusicDetailStore();
 // TODO: 请求并跳转到歌单页面，将内容用pinia来显示。
 export default async (musicListId: number, router: Router, path: string) => {
+	const musicDetailStore = useMusicDetailStore();
+	const slideBarStore = useSlideBarStore();
+
 	musicDetailStore.loadingListId = musicListId;
 	router.push(path);
 	await axios
@@ -36,6 +39,13 @@ export default async (musicListId: number, router: Router, path: string) => {
 			if (res.data.code === 200) {
 				musicDetailStore.songs = res.data.songs;
 				musicDetailStore.loadedListId = musicListId;
+
+				// handler
+				const index = slideBarStore.menuConfig.findIndex((info) => info.menuType === 'createMusic');
+				const likeListId = slideBarStore.menuConfig[index].menuItem[0].musicListId;
+				if (musicDetailStore.loadedListId === likeListId) {
+					musicDetailStore.playlist.name = '我喜欢的音乐';
+				}
 			}
 		});
 };

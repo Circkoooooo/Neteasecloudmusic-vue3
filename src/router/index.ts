@@ -12,11 +12,6 @@ export const routes = [
 		name: routerNamespace.ListDetail.name,
 		component: () => import('../pages/ListDetail/ListDetail.vue'),
 	},
-	{
-		path: routerNamespace.LikeMusic.path,
-		name: routerNamespace.LikeMusic.name,
-		component: () => import('../pages/LikeMusic/LikeMusic.vue'),
-	},
 ];
 
 export const router = createRouter({

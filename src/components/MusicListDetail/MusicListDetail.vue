@@ -14,15 +14,15 @@ withDefaults(defineProps<{
 </script>
 <template>
 	<div class="musiclist_detail">
-		<div class="detail_inner">
+		<div class="musiclistdetail_lodding"
+				v-if="isLoading">
+			<span class="loader"></span>
+		</div>
+		<div class="detail_inner"
+				v-else>
 			<!-- loading -->
-			<div class="musiclistdetail_lodding"
-					v-if="isLoading">
-				<span class="loader"></span>
-			</div>
 			<!-- loaded -->
-			<div class="musiclistdetail_info"
-					v-else>
+			<div class="musiclistdetail_info">
 				<div class="list_cover">
 					<img :src="playList?.coverImgUrl">
 				</div>

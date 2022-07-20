@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { computed, onMounted, watch } from 'vue';
+import {
+	onMounted, watch,
+} from 'vue';
 import '~/styles/page.less';
 import '~/styles/animate.less';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
@@ -11,47 +13,20 @@ import useUserStore from '~/store/userStore';
 import getLoginStatus from '~/composables/login';
 import saveUserLikeList from './composables/saveUserLikeList';
 import routerNamespace from './router/routerNamespace';
-import MenuConfigType from './types/Menu/MenuConfigType';
 import useUserLikeListStore from './store/userLikeListStore';
 import userLikeList from './composables/userLikeList';
+import userPlayList from './composables/userPlayList';
+import useUserPlayListStore from './store/userPlayListStore';
+import useSlideBarStore from './store/slideBarStore';
+import { MenuConfigItemType } from './types/Menu/MenuConfigType';
 
 const router = useRouter();
 const userStore = useUserStore();
 const userLikeListStore = useUserLikeListStore();
+const userPlayListStore = useUserPlayListStore();
+const slideBarStore = useSlideBarStore();
 
-const menuConfig: MenuConfigType[] = [
-	{
-		menuItem: [
-			{
-				link: routerNamespace.Home.path,
-				title: '发现音乐',
-			},
-		],
-	},
-	// {
-	// 	menuTitle: '我的音乐',
-	// 	menuItem: [
-	// 		{
-	// 			link: '/localdownload',
-	// 			title: '本地与下载',
-	// 		},
-	// 		{
-	// 			link: '/recentplay',
-	// 			title: '最近播放',
-	// 		},
-	// 	],
-	// },
-	{
-		menuTitle: '创建的歌单',
-		menuItem: [
-			{
-				link: routerNamespace.LikeMusic.path,
-				title: '我喜欢的音乐',
-				show: computed(() => userStore.profile !== null && userStore.account !== null),
-			},
-		],
-	},
-];
+// const menuConfigRef = computed<MenuConfigType[]>(() => menuConfig);
 
 // get userLikeListStore+
 (function preload() {
@@ -72,6 +47,7 @@ onMounted(() => {
 watch(userStore, () => {
 	if (userStore.account !== null && userStore.profile !== null) {
 		userLikeList(userStore.account.id);
+		userPlayList(userStore.account.id);
 	}
 });
 watch(userLikeListStore, () => {
@@ -79,12 +55,47 @@ watch(userLikeListStore, () => {
 		userLikeListStore.isLoading = false;
 	}
 });
+
+watch(userPlayListStore, () => {
+	const subscribeList = userPlayListStore.userPlayList.filter((list) => list.subscribed);
+	const notsubscribeList = userPlayListStore.userPlayList.filter((list) => !list.subscribed);
+	const notsubInfos = notsubscribeList.map((item) => ({
+		id: item.id,
+		name: item.name,
+	}));
+	const subInfos = subscribeList.map((item) => ({
+		id: item.id,
+		name: item.name,
+	}));
+
+	const notSubscribeConfig: MenuConfigItemType[] = notsubInfos.map((info) => ({
+		itemType: 'musiclist',
+		link: routerNamespace.ListDetail.path,
+		title: info.name,
+		musicListId: info.id,
+	} as MenuConfigItemType));
+
+	const subscribedConfig: MenuConfigItemType[] = subInfos.map((info) => ({
+		itemType: 'musiclist',
+		link: routerNamespace.ListDetail.path,
+		title: info.name,
+		musicListId: info.id,
+	} as MenuConfigItemType));
+
+	const notSubMusicIndex = slideBarStore.menuConfig.findIndex((config) => config.menuType === 'createMusic');
+	const subMusicIndex = slideBarStore.menuConfig.findIndex((config) => config.menuType === 'favoriteList');
+	slideBarStore.menuConfig[notSubMusicIndex].menuItem.push(...notSubscribeConfig);
+	slideBarStore.menuConfig[subMusicIndex].menuItem.push(...subscribedConfig);
+	if (slideBarStore.menuConfig[notSubMusicIndex].menuItem[0].title.lastIndexOf('喜欢的音乐') !== -1) {
+		slideBarStore.menuConfig[notSubMusicIndex].menuItem[0].title = '我喜欢的音乐';
+	}
+});
 </script>
 
 <template>
 	<div class="main">
 		<div class="main_content">
-			<SlideBar :menuConfig="menuConfig">
+			<SlideBar>
 				<template v-slot:UserProfile>
 					<UserProfile></UserProfile>
 				</template>
@@ -125,15 +136,29 @@ watch(userLikeListStore, () => {
 .content {
 	flex: 1;
 	overflow-y: scroll;
+	position: relative;
+}
 
+* {
 	&::-webkit-scrollbar {
 		width: 4px;
+		opacity: 0;
 	}
 
 	&::-webkit-scrollbar-thumb {
-		border-radius: 8px;
-		background: rgba(0, 0, 0, 0.3);
+		opacity: 0;
 	}
 
+	&:hover {
+		&::-webkit-scrollbar {
+			width: 4px;
+			opacity: 1;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			border-radius: 8px;
+			background: rgba(0, 0, 0, 0.3);
+		}
+	}
 }
 </style>

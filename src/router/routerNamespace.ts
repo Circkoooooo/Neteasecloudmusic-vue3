@@ -7,10 +7,6 @@ export const routerNamespace = {
 		path: '/listdetail',
 		name: 'listdetail',
 	},
-	LikeMusic: {
-		path: '/likemusic',
-		name: 'likemusic',
-	},
 };
 
 export default routerNamespace;

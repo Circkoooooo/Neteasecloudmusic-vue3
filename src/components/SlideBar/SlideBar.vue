@@ -1,56 +1,28 @@
 <script lang="ts" setup>
 import './SlideBar.less';
-import { useRoute, useRouter } from 'vue-router';
-import { computed, ref, watch } from 'vue';
-import MenuConfigType from '~/types/Menu/MenuConfigType';
+import { useRouter } from 'vue-router';
+import { computed, ref } from 'vue';
+import useSlideBarStore from '~/store/slideBarStore';
+import musicListDetail from '~/composables/musicListDetail';
 
-const route = useRoute();
 const router = useRouter();
+const slideBarStore = useSlideBarStore();
 const currentIndex = ref<Array<number>>([0, 0]);
+const menuConfig = computed(() => slideBarStore.menuConfig);
 
-const props = withDefaults(defineProps<{ menuConfig: MenuConfigType[] }>(), {});
-
-const linkTo = (link: string) => {
-	router.push(link);
+const linkTo = (link: string, itemIndex: number, childIndex: number) => {
+	const clickItem = slideBarStore.menuConfig[itemIndex].menuItem[childIndex];
+	if (clickItem.itemType === 'showpage') {
+		router.push(link);
+	}
+	if (clickItem.itemType === 'musiclist') {
+		router.push(link);
+		if (clickItem.musicListId === undefined) return;
+		musicListDetail(clickItem.musicListId, router, clickItem.link);
+	}
+	currentIndex.value = [itemIndex, childIndex];
 };
 
-/**
- *
- * require a path to calculate two index like [1,2],
- * the first one is the index of the menu
- * and the second one is the
- * index of menuItem in menu.
- * @param newPath
- */
-const getPathIndexTree = (newPath: string): number[] => {
-	const config = props.menuConfig;
-	const target = config.map((item, index) => {
-		const childIndex = item.menuItem.findIndex((child) => child.link === newPath);
-		if (childIndex !== -1) {
-			return [index, childIndex];
-		}
-		return -1;
-	});
-	if (target.every((item) => item === -1)) {
-		return [-1, -1];
-	}
-	const pathIndexList = target.find((item) => item !== -1);
-	if (pathIndexList === undefined || pathIndexList === -1) {
-		return [0, 0];
-	}
-	return pathIndexList;
-};
-
-/**
- * watch route's change.
- */
-watch(
-	() => route.path,
-	async (newPath) => {
-		const pathIndexList = getPathIndexTree(newPath);
-		currentIndex.value = pathIndexList;
-	},
-);
 </script>
 
 <template>
@@ -59,20 +31,20 @@ watch(
 		<!-- Menu -->
 		<div class="menu">
 			<div class="submenu"
-					v-for="(item, index) in menuConfig"
-					:key="index">
+					v-for="(item, itemIndex) in menuConfig"
+					:key="itemIndex">
 				<template v-if="item.menuItem.some(
-					(config => config.show?.value === undefined || config.show?.value)
+					(config => config.show === undefined || config.show)
 				)">
 					<div class="item title"
 							v-if="item.menuTitle">{{ item.menuTitle }}
 					</div>
 					<div class="item menuItem"
-							:class="{ select: index === currentIndex[0] && childIndex === currentIndex[1] }"
+							:class="{ select: itemIndex === currentIndex[0] && childIndex === currentIndex[1] }"
 							v-for="(child, childIndex) in item.menuItem"
-							v-show="child.show?.value === undefined || child.show?.value"
+							v-show="child.show === undefined || child.show"
 							:key="childIndex"
-							@click="linkTo(child.link)">
+							@click="linkTo(child.link, itemIndex, childIndex)">
 						{{ child.title }}
 					</div>
 				</template>
