@@ -5,9 +5,9 @@ import {
 } from 'vue';
 import useMusicPlayer from '~/composables/useMusicPlayer';
 import timeFormat from '~/utils/timeFormat';
-import useMusicPlayerStore from '~/store/musicPlayerStore';
 import useUserLikeListStore from '~/store/userLikeListStore';
 import usePlayListStore from '~/store/playListStore';
+import useMusicPlayerStore from '~/store/musicPlayerStore';
 
 // FIXME:在无歌曲状态下，拖动滚动条，会导致音乐播放按钮变成播放状态。
 const audio = ref<HTMLAudioElement | null>(null);
@@ -33,11 +33,22 @@ const {
 	getMusicPlayStatusStorage,
 	changeCurrentTime,
 	nextMusic,
+	preMusic,
+	changeMusic,
 	like,
 	isLoading,
+	addMusicList,
+	replaceMusicList,
+	clearPlayList,
 } = musicPlayer;
 
+// playerstore params
 musicPlayerStore.nextMusic = nextMusic;
+musicPlayerStore.replaceMusicList = replaceMusicList;
+musicPlayerStore.addMusicList = addMusicList;
+musicPlayerStore.changeMusic = changeMusic;
+musicPlayerStore.clearPlayList = clearPlayList;
+
 (function loadStorageMusicInfoAndStatus() {
 	const data = getMusicInfoStorage();
 	const playData = getMusicPlayStatusStorage();
@@ -94,6 +105,7 @@ const process = computed(() => {
 
 const headBtnMove = (event: MouseEvent) => {
 	if (isLoading.value) return;
+
 	const ofx = event.clientX - startX.value;
 	offsetX.value = startProcess.value + ofx;
 	if (offsetX.value > musicInfoObj.musicPlayStatus.musicDuration) {
@@ -167,7 +179,8 @@ onMounted(() => {
 		</div>
 		<!-- FIXME:播放按钮 的剩余按钮-->
 		<div class="music_button">
-			<div class="go_start">
+			<div class="go_start"
+					@click="preMusic">
 				<img src="../../assets/go-start.png">
 			</div>
 			<div class="play"
@@ -177,7 +190,8 @@ onMounted(() => {
 				<img src="../../assets/pause.png"
 						v-else>
 			</div>
-			<div class="go_end">
+			<div class="go_end"
+					@click="nextMusic">
 				<img src="../../assets/go-end.png">
 			</div>
 		</div>

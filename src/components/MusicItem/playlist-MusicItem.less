@@ -1,0 +1,76 @@
+.music_item.playlistMusicItem {
+	width: 100%;
+	height: 24px;
+	padding: 16px;
+
+	cursor: pointer;
+
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.01);
+	}
+
+	.music_showlist {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+
+		.number {
+			width: 20px;
+			display: flex;
+			justify-content: center;
+			font-weight: bold;
+			font-weight: 16px;
+			margin-right: 8px;
+		}
+
+		.is_like {
+			margin-right: 16px;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			img {
+				height: 18px;
+				width: 18px;
+			}
+		}
+
+		.music_cover {
+			height: 100%;
+			aspect-ratio: 1/1;
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.namebox {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			font-size: 14px;
+			font-weight: bold;
+			margin-left: 32px;
+
+			.title,
+			.singer {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				width: 100%;
+
+			}
+
+			.title {
+				color: @default-font-color;
+			}
+
+			.singer {
+				color: @secondary-font-color;
+			}
+		}
+	}
+}

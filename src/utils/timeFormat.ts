@@ -1,4 +1,4 @@
-export default (time:number):string => {
+export default (time: number) => {
 	let minute = 0;
 	let second = 0;
 

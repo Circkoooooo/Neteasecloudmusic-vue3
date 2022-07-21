@@ -1,6 +1,6 @@
 .playlist {
 	height: 100%;
-	width: 300px;
+	width: max-content;
 	background-color: @playlist-color;
 	position: absolute;
 	right: 0;
@@ -8,6 +8,30 @@
 	z-index: 1;
 	transform: translateX(100%);
 	transition: @default-transition;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 36px;
+
+	.playlist_btn {
+		.clearall {
+			width: 80px;
+			font-weight: bold;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: @support-color;
+			height: 40px;
+			background-color: @main-color;
+			border-radius: 4px;
+			margin: 18px;
+			cursor: pointer;
+			opacity: 0.8;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
 }
 
 .playlist_show {

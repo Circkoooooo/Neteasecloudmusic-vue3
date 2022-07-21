@@ -19,8 +19,10 @@
 		flex: 1;
 		overflow: hidden;
 		padding: 0 24px 0 24px;
+		position: relative;
 
 		.list_title {
+			color: rgba(0, 0, 0, 0.65);
 			font-weight: bold;
 			font-size: 24px;
 			margin-bottom: 16px;
@@ -38,6 +40,67 @@
 			text-overflow: ellipsis;
 			overflow: hidden;
 			-webkit-box-orient: vertical;
+			font-weight: bold;
+			margin-top: 16px;
+			color: @secondary-font-color;
+		}
+
+		.list_addition {
+			color: @secondary-font-color;
+
+			.addition_create {
+				.creator {
+					display: flex;
+					align-items: center;
+
+					.creator_avatar {
+						margin-right: 4px;
+						width: 24px;
+						height: 24px;
+						border-radius: 50%;
+						overflow: hidden;
+
+						img {
+							height: 100%;
+							width: 100%;
+						}
+					}
+
+					.creator_nickname {
+						font-weight: bold;
+						font-size: 14px;
+						margin-right: 16px;
+					}
+				}
+
+				.create_time {
+					font-size: 14px;
+					font-weight: bold;
+				}
+			}
+
+			.addition_btn {
+				margin-top: 8px;
+
+				.playall {
+					width: 100px;
+					height: 40px;
+					background-color: @main-color;
+					border-radius: 4px;
+					display: flex;
+					color: @support-color;
+					justify-content: center;
+					align-items: center;
+					font-weight: bold;
+					cursor: pointer;
+					opacity: 0.8;
+					transition: @default-transition;
+
+					&:hover {
+						opacity: 1;
+					}
+				}
+			}
 		}
 	}
 }

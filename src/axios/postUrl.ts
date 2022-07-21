@@ -6,7 +6,7 @@ export default {
 	getQrCode: 'login/qr/create',
 	checkQrCode: 'login/qr/check',
 	homepage: 'homepage/block/page',
-	UserDetail: 'user/detail',
+	getUserDetail: 'user/detail',
 	getMusicUrlById: 'song/url',
 	getMusicInfoByIds: 'song/detail',
 	getMusicRecommendLogin: 'recommend/resource',

@@ -28,7 +28,7 @@ export default async (musicListId: number, router: Router, path: string) => {
 		requestTracks = trackIds.map((item) => item.id).join(',');
 	}
 
-	axios
+	await axios
 		.post(postUrl.getMusicInfoByIds, null, {
 			params: {
 				ids: requestTracks,
@@ -37,7 +37,6 @@ export default async (musicListId: number, router: Router, path: string) => {
 		.then((res) => {
 			if (res.data.code === 200) {
 				musicDetailStore.songs = res.data.songs;
-				musicDetailStore.loadedListId = musicListId;
 
 				// handler
 				const index = slideBarStore.menuConfig.findIndex((info) => info.menuType === 'createMusic');
@@ -49,4 +48,13 @@ export default async (musicListId: number, router: Router, path: string) => {
 				}
 			}
 		});
+	// getUserDetail
+	await axios.post(postUrl.getUserDetail, null, {
+		params: {
+			uid: musicDetailStore.playlist.userId,
+		},
+	}).then((res) => {
+		musicDetailStore.userDetail = res.data;
+	});
+	musicDetailStore.loadedListId = musicListId;
 };

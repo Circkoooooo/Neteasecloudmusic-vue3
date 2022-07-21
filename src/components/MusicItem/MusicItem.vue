@@ -1,16 +1,18 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { MusicInfo } from '~/types/Music/MusicInfo';
-import './MusicItem.less';
-import useMusicPlayerStore from '~/store/musicPlayerStore';
+import './listdetail-MusicItem.less';
+import './playlist-MusicItem.less';
 import useUserLikeListStore from '~/store/userLikeListStore';
+import useMusicPlayerStore from '~/store/musicPlayerStore';
 
-const { nextMusic } = useMusicPlayerStore();
 const userLikeListStore = useUserLikeListStore();
+const { changeMusic } = useMusicPlayerStore();
 
 const props = withDefaults(defineProps<{
 	index: number,
-	musicInfo: MusicInfo
+	musicInfo: MusicInfo,
+	namespace: 'listdetailMusicItem' | 'playlistMusicItem'
 }>(), {});
 
 const singer = computed(() => props.musicInfo.ar.map((item) => item.name).join('/'));
@@ -19,7 +21,8 @@ const like = computed(() => userLikeListStore.likeList.includes(props.musicInfo.
 
 <template>
 	<div class="music_item"
-			@dblclick="nextMusic(musicInfo.id)">
+			:class="namespace"
+			@dblclick="changeMusic(musicInfo.id)">
 		<div class="music_showlist">
 			<div class="number">
 				{{ index }}

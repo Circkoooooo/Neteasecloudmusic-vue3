@@ -108,10 +108,7 @@ watch(userPlayListStore, () => {
 			<PlayList></PlayList>
 		</div>
 		<div class="main_fix">
-			<keep-alive>
-				<component name="musicplayer"
-						:is="MusicPlayer"></component>
-			</keep-alive>
+			<MusicPlayer></MusicPlayer>
 		</div>
 		<div class="modals">
 			<LoginModal></LoginModal>

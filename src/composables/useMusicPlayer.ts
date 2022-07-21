@@ -1,10 +1,12 @@
 import axios from 'axios';
 import {
 	reactive,
-	Ref, ref, watch,
+	Ref,
+	ref, watch,
 } from 'vue';
 import postUrl from '~/axios/postUrl';
 import useMusicDetailStore from '~/store/musicDetailStore';
+import usePlayListStore from '~/store/playListStore';
 import useUserStore from '~/store/UserStore';
 import { MusicInfo } from '~/types/Music/MusicInfo';
 import { MusicPlayerType } from '~/types/Music/MusicPlayer';
@@ -16,19 +18,19 @@ const storageNamespace = {
 	musicPlayStatus: 'musicPlayStatus',
 	musicId: 'musicId',
 };
-const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerType => {
+const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerType => {
 	const musicDetailStore = useMusicDetailStore();
-
+	const playlistStore = usePlayListStore();
 	const userStore = useUserStore();
 
 	const isLoading = ref(false);
 	const musicInfoObj = reactive<{
-		musicUrl:string, // current music
+		musicUrl: string, // current music
 		musicId: number,
 		musicInfo: MusicInfo | null
 		musicPlayStatus: {
 			musicDuration: number,
-			musicCurrentTime:number
+			musicCurrentTime: number
 		},
 	}>({
 		musicUrl: '',
@@ -122,16 +124,34 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 			},
 		});
 	};
+	const addMusicList = (musicInfo: MusicInfo) => {
+		const findIndex = playlistStore.playList.findIndex((item) => item.id === musicInfo.id);
+		if (findIndex === -1) {
+			playlistStore.playList.unshift(musicInfo);
+		}
+		for (let i = findIndex; i >= findIndex; i -= 1) {
+			playlistStore.playList[i] = playlistStore.playList[i - 1];
+		}
+		playlistStore.playList[0] = musicInfo;
+	};
+
+	const updateCurrentIndex = () => {
+		const index = playlistStore.playList.findIndex((item) => item.id === musicInfoObj.musicId);
+		playlistStore.currentIndex = index;
+	};
+
 	// be excuted after loadmusic
-	const play = (currentTime:number, playNow:boolean, callBack:()=>void) => {
+	const play = (currentTime: number, playNow: boolean, callBack: () => void) => {
 		if (musicSource.value === null) return;
 		musicSource.value!.src = musicInfoObj.musicUrl;
 		musicSource.value!.currentTime = currentTime;
+
 		musicSource.value.oncanplay = () => {
 			if (playNow) {
 				isPlay.value = playNow;
 			}
 		};
+
 		callBack();
 	};
 
@@ -146,7 +166,12 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 		}
 	};
 
-	const loadMusic = async (musicId: number, playNow: boolean, currentTime: number = 0) => {
+	const loadMusic = async (
+		musicId: number,
+		playNow: boolean,
+		isHead: boolean,
+		currentTime: number = 0,
+	) => {
 		isPlay.value = false;
 		isLoading.value = true;
 		// storageMusicPlayStatus
@@ -173,6 +198,12 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 			saveMusicInfoStorage();
 			saveMusicPlayStatusStorage();
 			saveMusicIdStorage();
+			if (musicInfoObj.musicInfo !== null) {
+				if (isHead) {
+					addMusicList(musicInfoObj.musicInfo);
+				}
+				updateCurrentIndex();
+			}
 		});
 	};
 
@@ -189,12 +220,12 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 
 		if (musicId !== null && musicId !== 0 && musicId !== undefined) {
 			musicInfoObj.musicId = musicId;
-			loadMusic(musicId, false, musicInfoObj.musicPlayStatus.musicCurrentTime);
+			loadMusic(musicId, false, true, musicInfoObj.musicPlayStatus.musicCurrentTime);
 		} else {
 			const data = getMusicInfoStorage();
 			if (!data || !data.id) return;
 			const { id } = data;
-			loadMusic(id, false);
+			loadMusic(id, false, true);
 		}
 	};
 
@@ -205,23 +236,34 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 		saveMusicPlayStatusStorage();
 	};
 
-	const changeCurrentTime = (currentTime?:number) => {
+	const changeCurrentTime = (currentTime?: number) => {
 		if (currentTime === undefined) return;
 		musicSource.value!.currentTime = currentTime;
 	};
 
-	const onEnded = () => {
-		isPlay.value = false;
-		musicInfoObj.musicPlayStatus.musicCurrentTime = musicInfoObj.musicPlayStatus.musicDuration;
-	};
-
-	const nextMusic = (musicId: number) => {
+	const changeMusic = (musicId: number) => {
 		scrobble();
 		if (musicSource.value === null) return;
-		loadMusic(musicId, true);
+		loadMusic(musicId, true, true);
 	};
 
-	const like = async (liked:boolean) => {
+	const preMusic = () => {
+		let index = playlistStore.currentIndex;
+		if (index === 0) {
+			index = playlistStore.playList.length - 1;
+		} else {
+			index -= 1;
+		}
+		loadMusic(playlistStore.playList[index].id, true, false);
+	};
+
+	const nextMusic = () => {
+		let index = playlistStore.currentIndex;
+		index = (index + 1) % playlistStore.playList.length;
+		loadMusic(playlistStore.playList[index].id, true, false);
+	};
+
+	const like = async (liked: boolean) => {
 		const id = musicInfoObj.musicId;
 		const timestamp = new Date().getTime();
 		if (id) {
@@ -240,6 +282,28 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 		}
 	};
 
+	const replaceMusicList = (musicInfoList: MusicInfo[]) => {
+		loadMusic(musicInfoList[0].id, true, false);
+		playlistStore.playList = musicInfoList;
+	};
+
+	const onEnded = () => {
+		isPlay.value = false;
+		musicInfoObj.musicPlayStatus.musicCurrentTime = musicInfoObj.musicPlayStatus.musicDuration;
+		nextMusic();
+	};
+
+	const clearPlayList = () => {
+		playlistStore.playList = [];
+		isPlay.value = false;
+		if (musicSource.value) {
+			musicSource.value.src = '';
+		}
+		musicInfoObj.musicInfo = null;
+		musicInfoObj.musicId = 0;
+		musicInfoObj.musicUrl = '';
+	};
+
 	return {
 		isPlay,
 		isLoading,
@@ -254,8 +318,13 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 		getMusicIdStorage,
 		changeCurrentTime,
 		nextMusic,
+		preMusic,
+		changeMusic,
 		scrobble,
 		like,
+		addMusicList,
+		replaceMusicList,
+		clearPlayList,
 	} as MusicPlayerType;
 };
 
