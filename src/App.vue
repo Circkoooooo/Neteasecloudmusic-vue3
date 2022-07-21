@@ -90,6 +90,8 @@ watch(userPlayListStore, () => {
 	if (slideBarStore.menuConfig[notSubMusicIndex].menuItem[0]
 		&& slideBarStore.menuConfig[notSubMusicIndex].menuItem[0].title.lastIndexOf('喜欢的音乐') !== -1) {
 		slideBarStore.menuConfig[notSubMusicIndex].menuItem[0].title = '我喜欢的音乐';
+		userLikeListStore.likeListId = slideBarStore.menuConfig[notSubMusicIndex]
+			.menuItem[0].musicListId;
 	}
 });
 </script>

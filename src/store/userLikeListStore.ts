@@ -4,13 +4,15 @@ import { MusicInfo } from '~/types/Music/MusicInfo';
 
 const useUserLikeListStore = defineStore('userLikeListStore', {
 	state: (): {
-		likeList:number[],
+		likeList: number[],
 		likeListMusicList: MusicInfo[]
-		isLoading:Ref<boolean>,
+		isLoading: Ref<boolean>,
+		likeListId?: number,
 	} => ({
 		likeList: [],
 		likeListMusicList: [],
 		isLoading: ref(true),
+		likeListId: 0,
 	}),
 });
 

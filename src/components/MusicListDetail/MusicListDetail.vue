@@ -19,7 +19,7 @@ withDefaults(defineProps<{
 }>(), {});
 
 const userDetail = computed(() => musicDetailStore.userDetail);
-
+const like = computed(() => musicDetailStore.isLikeList);
 </script>
 <template>
 	<div class="musiclist_detail">
@@ -57,7 +57,12 @@ const userDetail = computed(() => musicDetailStore.userDetail);
 									@click="replaceMusicList(songs)">播放全部</div>
 						</div>
 					</div>
-					<div class="list_description">简介：{{ playList?.description }}</div>
+					<div class="musiclist_data">
+						<div class="track_count">歌曲：{{ playList?.trackCount }}</div>
+						<div class="play_count">播放量：{{ playList?.playCount }}</div>
+					</div>
+					<div class="list_description"
+							v-if="!like">简介：{{ playList?.description }}</div>
 				</div>
 			</div>
 			<!-- music -->

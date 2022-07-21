@@ -7,10 +7,10 @@ export default (timestamp: number) => {
 	let newMonth = (month + 1).toString();
 	let newDay = day.toString();
 	if (month < 10) {
-		newMonth = `0${month.toString()}`;
+		newMonth = `0${newMonth}`;
 	}
 	if (day < 10) {
-		newDay = `0${day.toString()}`;
+		newDay = `0${(newDay)}`;
 	}
 	return `${year}-${newMonth}-${newDay}`;
 };

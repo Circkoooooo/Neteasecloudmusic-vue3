@@ -3,9 +3,11 @@ import axios from 'axios';
 import postUrl from '~/axios/postUrl';
 import useMusicDetailStore from '~/store/musicDetailStore';
 import useSlideBarStore from '~/store/slideBarStore';
+import useUserLikeListStore from '~/store/userLikeListStore';
 
 export default async (musicListId: number, router: Router, path: string) => {
 	const musicDetailStore = useMusicDetailStore();
+	const userLikeListStore = useUserLikeListStore();
 	const slideBarStore = useSlideBarStore();
 
 	musicDetailStore.loadingListId = musicListId;
@@ -48,6 +50,7 @@ export default async (musicListId: number, router: Router, path: string) => {
 				}
 			}
 		});
+
 	// getUserDetail
 	await axios.post(postUrl.getUserDetail, null, {
 		params: {
@@ -57,4 +60,9 @@ export default async (musicListId: number, router: Router, path: string) => {
 		musicDetailStore.userDetail = res.data;
 	});
 	musicDetailStore.loadedListId = musicListId;
+	if (userLikeListStore.likeListId === musicDetailStore.loadedListId) {
+		musicDetailStore.isLikeList = true;
+	} else {
+		musicDetailStore.isLikeList = false;
+	}
 };
