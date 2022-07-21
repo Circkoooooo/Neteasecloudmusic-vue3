@@ -3,6 +3,7 @@ import './UserProfile.less';
 import { computed } from 'vue';
 import userStore from '~/store/UserStore';
 import useLoginStore from '~/store/loginStore';
+import UserModal from './UserModal.vue';
 
 const user = userStore();
 const userProfile = computed(() => user.profile);
@@ -16,20 +17,29 @@ const openModal = () => {
 </script>
 
 <template>
-	<div class="user_profile"
-			@click="openModal">
+	<div class="user_logout"
+			@click="openModal"
+			v-if="user.account === null && user.profile === null">
 		<div class="avatar">
-			<img :src="userProfile?.avatarUrl"
-					v-if="userProfile?.avatarUrl">
-			<img src="../../assets/logo.png"
-					v-else>
+			<img src="../../assets/logo.png">
 		</div>
-		<div class="profile_logout"
-				v-if="user.account === null && user.profile === null">
-			点击登录
-		</div>
-		<div class="nickname">
-			{{ userProfile?.nickname }}
-		</div>
+		<div class="nickname"> 点击登录</div>
 	</div>
+	<!-- login -->
+	<el-popover trigger="click"
+			v-else>
+		<template #reference>
+			<div class="user_login">
+				<div class="avatar">
+					<img :src="userProfile?.avatarUrl">
+				</div>
+				<div class="nickname">
+					{{ userProfile?.nickname }}
+				</div>
+			</div>
+		</template>
+		<template #default>
+			<UserModal></UserModal>
+		</template>
+	</el-popover>
 </template>

@@ -20,8 +20,8 @@ const recommendStore = useRecommendStore();
 		}
 		return false;
 	});
-
 	if (isLogin) {
+		recommendStore.recommendMusicList = [];
 		axios.post(postUrl.getMusicRecommendLogin).then((res) => {
 			if (res.data.code === 200) {
 				recommendStore.recommendMusicList = res.data.recommend;
