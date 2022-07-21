@@ -5,14 +5,16 @@ import {
 } from 'vue';
 import '~/styles/page.less';
 import '~/styles/animate.less';
+import axios from 'axios';
+import routerNamespace from './router/routerNamespace';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
 import UserProfile from '~/components/UserProfile/UserProfile.vue';
 import PlayList from '~/components/PlayList/PlayList.vue';
-import useUserStore from '~/store/userStore';
+import LoginModal from './components/LoginModal/LoginModal.vue';
 import getLoginStatus from '~/composables/login';
 import saveUserLikeList from './composables/saveUserLikeList';
-import routerNamespace from './router/routerNamespace';
+import useUserStore from '~/store/userStore';
 import useUserLikeListStore from './store/userLikeListStore';
 import userLikeList from './composables/userLikeList';
 import userPlayList from './composables/userPlayList';
@@ -26,8 +28,6 @@ const userLikeListStore = useUserLikeListStore();
 const userPlayListStore = useUserPlayListStore();
 const slideBarStore = useSlideBarStore();
 
-// const menuConfigRef = computed<MenuConfigType[]>(() => menuConfig);
-
 // get userLikeListStore+
 (function preload() {
 	// getLoginStatus if login, set profile and account info to pinia.
@@ -35,7 +35,9 @@ const slideBarStore = useSlideBarStore();
 		if (res !== null) {
 			userStore.account = res.account;
 			userStore.profile = res.profile;
-			saveUserLikeList(res.account.id);
+			if (res.account !== null && res.profile !== null) {
+				saveUserLikeList(res.account.id);
+			}
 		}
 	});
 }());
@@ -110,6 +112,9 @@ watch(userPlayListStore, () => {
 				<component name="musicplayer"
 						:is="MusicPlayer"></component>
 			</keep-alive>
+		</div>
+		<div class="modals">
+			<LoginModal></LoginModal>
 		</div>
 	</div>
 </template>
