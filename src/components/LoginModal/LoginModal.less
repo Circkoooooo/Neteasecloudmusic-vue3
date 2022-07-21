@@ -14,10 +14,43 @@
 		align-items: center;
 
 		.login_modal {
-			width: 600px;
-			height: 400px;
+			width: 300px;
+			padding: 50px 0;
 			border-radius: 8px;
 			background-color: #F0F0F0;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.modal_title {
+			margin-bottom: 40px;
+			font-weight: bold;
+		}
+
+		.modal_btn {
+			margin-top: 40px;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.modal_btn_exit {
+				height: 40px;
+				width: 100px;
+				background-color: rgba(0, 0, 0, 0.1);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border-radius: 4px;
+				font-weight: bold;
+				cursor: pointer;
+
+				&:hover {
+					background-color: rgba(0, 0, 0, 0.08);
+				}
+			}
 		}
 	}
 }

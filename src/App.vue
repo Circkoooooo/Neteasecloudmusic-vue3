@@ -5,7 +5,6 @@ import {
 } from 'vue';
 import '~/styles/page.less';
 import '~/styles/animate.less';
-import axios from 'axios';
 import routerNamespace from './router/routerNamespace';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
@@ -27,7 +26,6 @@ const userStore = useUserStore();
 const userLikeListStore = useUserLikeListStore();
 const userPlayListStore = useUserPlayListStore();
 const slideBarStore = useSlideBarStore();
-
 // get userLikeListStore+
 (function preload() {
 	// getLoginStatus if login, set profile and account info to pinia.
@@ -88,7 +86,9 @@ watch(userPlayListStore, () => {
 	const subMusicIndex = slideBarStore.menuConfig.findIndex((config) => config.menuType === 'favoriteList');
 	slideBarStore.menuConfig[notSubMusicIndex].menuItem.push(...notSubscribeConfig);
 	slideBarStore.menuConfig[subMusicIndex].menuItem.push(...subscribedConfig);
-	if (slideBarStore.menuConfig[notSubMusicIndex].menuItem[0].title.lastIndexOf('喜欢的音乐') !== -1) {
+
+	if (slideBarStore.menuConfig[notSubMusicIndex].menuItem[0]
+		&& slideBarStore.menuConfig[notSubMusicIndex].menuItem[0].title.lastIndexOf('喜欢的音乐') !== -1) {
 		slideBarStore.menuConfig[notSubMusicIndex].menuItem[0].title = '我喜欢的音乐';
 	}
 });

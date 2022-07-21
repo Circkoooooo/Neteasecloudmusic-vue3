@@ -3,6 +3,7 @@ import postUrl from '~/axios/postUrl';
 import useUserLikeListStore from '~/store/userLikeListStore';
 
 export default async (id: number) => {
+	if (!id) return;
 	const userLikeListStore = useUserLikeListStore();
 	if (id === undefined) return;
 	await axios.post(postUrl.likelist, null, {

@@ -1,6 +1,10 @@
 export default {
 	isLogin: 'login/status',
 	logOut: 'logout',
+	// qrcode
+	getQrcodeKey: 'login/qr/key',
+	getQrCode: 'login/qr/create',
+	checkQrCode: 'login/qr/check',
 	homepage: 'homepage/block/page',
 	UserDetail: 'user/detail',
 	getMusicUrlById: 'song/url',

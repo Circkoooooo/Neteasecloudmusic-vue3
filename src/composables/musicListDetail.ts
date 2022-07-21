@@ -41,6 +41,8 @@ export default async (musicListId: number, router: Router, path: string) => {
 
 				// handler
 				const index = slideBarStore.menuConfig.findIndex((info) => info.menuType === 'createMusic');
+				if (!slideBarStore.menuConfig[index]
+					|| !slideBarStore.menuConfig[index].menuItem[0]) return;
 				const likeListId = slideBarStore.menuConfig[index].menuItem[0].musicListId;
 				if (musicDetailStore.loadedListId === likeListId) {
 					musicDetailStore.playlist.name = '我喜欢的音乐';
