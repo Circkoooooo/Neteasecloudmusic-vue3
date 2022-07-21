@@ -59,6 +59,7 @@ watch(loginStore, async () => {
 	if (loginStore.status === 'success') {
 		getLoginStatus().then((res) => {
 			if (res?.account !== null && res?.profile !== null) {
+				window.location.reload();
 				loginStore.status = 'close';
 			}
 		});

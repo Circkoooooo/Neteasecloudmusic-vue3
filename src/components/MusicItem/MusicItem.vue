@@ -24,6 +24,12 @@ const like = computed(() => userLikeListStore.likeList.includes(props.musicInfo.
 			<div class="number">
 				{{ index }}
 			</div>
+			<div class="is_like">
+				<img src="../../assets/like.png"
+						v-if="like">
+				<img src="../../assets/like_default.png"
+						v-else>
+			</div>
 			<div class="music_cover">
 				<img :src="musicInfo.al.picUrl"
 						:alt="musicInfo.al.name">
@@ -32,7 +38,7 @@ const like = computed(() => userLikeListStore.likeList.includes(props.musicInfo.
 				<div class="title">{{ musicInfo.name }}</div>
 				<div class="singer">{{ singer }}</div>
 			</div>
-			{{ like ? '喜欢' : "no" }}
+
 		</div>
 	</div>
 </template>
