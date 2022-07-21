@@ -128,7 +128,6 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 		musicSource.value!.src = musicInfoObj.musicUrl;
 		musicSource.value!.currentTime = currentTime;
 		musicSource.value.oncanplay = () => {
-			scrobble();
 			if (playNow) {
 				isPlay.value = playNow;
 			}
@@ -217,6 +216,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>):MusicPlayerTy
 	};
 
 	const nextMusic = (musicId: number) => {
+		scrobble();
 		if (musicSource.value === null) return;
 		loadMusic(musicId, true);
 	};

@@ -20,8 +20,6 @@ withDefaults(defineProps<{
 		</div>
 		<div class="detail_inner"
 				v-else>
-			<!-- loading -->
-			<!-- loaded -->
 			<div class="musiclistdetail_info">
 				<div class="list_cover">
 					<img :src="playList?.coverImgUrl">
