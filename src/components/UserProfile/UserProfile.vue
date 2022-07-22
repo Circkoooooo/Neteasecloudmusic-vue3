@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import './UserProfile.less';
 import { computed } from 'vue';
+import { ElPopover } from 'element-plus';
+import UserModal from './UserModal.vue';
 import userStore from '~/store/UserStore';
 import useLoginStore from '~/store/loginStore';
-import UserModal from './UserModal.vue';
 
 const user = userStore();
 const userProfile = computed(() => user.profile);
