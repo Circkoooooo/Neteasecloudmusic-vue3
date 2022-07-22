@@ -12,7 +12,9 @@ let timer: any = null;
 
 const qrcode = () => {
 	if (loginStore.qrurl === null) return;
-	QRCode.toCanvas(canvas.value, loginStore.qrurl, () => null);
+	QRCode.toCanvas(canvas.value, loginStore.qrurl, {
+		width: 128,
+	});
 };
 
 const checkCode = async () => {
@@ -72,7 +74,9 @@ const closeModal = () => {
 
 onMounted(() => {
 	if (canvas.value === null) return;
-	QRCode.toCanvas(canvas.value, '还没有准备好，别急着扫码', () => null);
+	QRCode.toCanvas(canvas.value, '还没有准备好，别急着扫码', {
+		width: 128,
+	});
 });
 </script>
 
