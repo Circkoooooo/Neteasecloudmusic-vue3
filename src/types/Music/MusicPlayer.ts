@@ -38,6 +38,7 @@ export type MusicPlayerType = {
 	like: (liked: boolean) => Promise<void>;
 	addMusicList: (musicInfo: MusicInfo) => void;
 	replaceMusicList: (musicInfoList: MusicInfo[]) => void;
-	clearPlayList: () => void;
 	changeMod: () => void;
+	useModeSelect: () => void;
+	clearPlayList: () => void;
 }

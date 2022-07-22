@@ -11,10 +11,11 @@ export default {
 	getMusicInfoByIds: 'song/detail',
 	getMusicRecommendLogin: 'recommend/resource',
 	getMusicRecommend: 'personalized',
-	getMusicListDetail: '/playlist/detail',
+	getMusicListDetail: 'playlist/detail',
 	// 听歌打卡
 	scrobble: 'scrobble',
 	like: 'like',
 	likelist: 'likelist',
 	userPlayList: 'user/playlist',
+	heartPlayList: 'playmode/intelligence/list',
 };

@@ -5,8 +5,9 @@ import {
 	ref, watch,
 } from 'vue';
 import postUrl from '~/axios/postUrl';
-import useMusicDetailStore from '~/store/musicDetailStore';
 import usePlayListStore from '~/store/playListStore';
+import useMusicDetailStore from '~/store/musicDetailStore';
+import useUserLikeListStore from '~/store/userLikeListStore';
 import useUserStore from '~/store/UserStore';
 import { MusicInfo } from '~/types/Music/MusicInfo';
 import { MusicPlayerMode, MusicPlayerType } from '~/types/Music/MusicPlayer';
@@ -22,6 +23,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 	const musicDetailStore = useMusicDetailStore();
 	const playlistStore = usePlayListStore();
 	const userStore = useUserStore();
+	const userLikeListStore = useUserLikeListStore();
 
 	const isLoading = ref(false);
 	const mode = ref<MusicPlayerMode>({
@@ -224,12 +226,12 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 
 		if (musicId !== null && musicId !== 0 && musicId !== undefined) {
 			musicInfoObj.musicId = musicId;
-			loadMusic(musicId, false, true, musicInfoObj.musicPlayStatus.musicCurrentTime);
+			loadMusic(musicId, false, false, musicInfoObj.musicPlayStatus.musicCurrentTime);
 		} else {
 			const data = getMusicInfoStorage();
 			if (!data || !data.id) return;
 			const { id } = data;
-			loadMusic(id, false, true);
+			loadMusic(id, false, false);
 		}
 	};
 
@@ -248,7 +250,11 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 	const changeMusic = (musicId: number) => {
 		scrobble();
 		if (musicSource.value === null) return;
-		loadMusic(musicId, true, true);
+		if (playlistStore.playList.findIndex((item) => item.id === musicId) === -1) {
+			loadMusic(musicId, true, true);
+		} else {
+			loadMusic(musicId, true, false);
+		}
 	};
 
 	const preMusic = () => {
@@ -278,7 +284,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 					timestamp,
 				},
 			}).then((res) => {
-				if (res.data.code === 200 && userStore.account?.id) {
+				if (res.data.code === 200 && userStore.account !== null && userStore.profile !== null) {
 					saveUserLikeList(userStore.account.id);
 					userPlayList(userStore.account.id);
 				}
@@ -300,6 +306,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 	const clearPlayList = () => {
 		playlistStore.playList = [];
 		isPlay.value = false;
+		playlistStore.currentIndex = -1;
 		if (musicSource.value) {
 			musicSource.value.src = '';
 		}
@@ -308,8 +315,43 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 		musicInfoObj.musicUrl = '';
 	};
 
+	const useModeSelect = () => {
+		const md = mode.value.modeEnum[mode.value.modeIndex];
+		if (md === '随机') {
+			const currentId = musicInfoObj.musicInfo?.id;
+			const copyList = Array.from(playlistStore.playList);
+			copyList.sort(() => Math.random() - 0.5);
+			const currentMusicId = copyList.findIndex((music) => music.id === currentId);
+			playlistStore.playList = copyList;
+			playlistStore.currentIndex = currentMusicId;
+		} else if (md === '顺序') {
+			playlistStore.playList = playlistStore.sortPlayList;
+		} else if (md === '心动') {
+			axios.post(postUrl.heartPlayList, null, {
+				params: {
+					id: playlistStore.playList[playlistStore.currentIndex].id,
+					pid: !musicDetailStore.loadedListId ? userLikeListStore.likeListId
+						: musicDetailStore.loadedListId,
+				},
+			}).then((res) => {
+				if (res.data.code === 200) {
+					const list: MusicInfo[] = [];
+					for (let i = 0; i < res.data.data.length; i += 1) {
+						list.push(res.data.data[i].songInfo);
+					}
+					playlistStore.playList = list;
+				}
+				if (playlistStore.playList.findIndex((item) => item.id === musicInfoObj.musicId) === -1) {
+					playlistStore.playList.unshift(musicInfoObj.musicInfo as MusicInfo);
+				}
+				updateCurrentIndex();
+			});
+		}
+	};
+
 	const changeMod = () => {
 		mode.value.modeIndex = (mode.value.modeIndex + 1) % mode.value.modeEnum.length;
+		useModeSelect();
 	};
 
 	return {
@@ -337,6 +379,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 		replaceMusicList,
 		clearPlayList,
 		changeMod,
+		useModeSelect,
 	} as MusicPlayerType;
 };
 

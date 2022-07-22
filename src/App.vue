@@ -5,6 +5,7 @@ import {
 } from 'vue';
 import '~/styles/page.less';
 import '~/styles/animate.less';
+import axios from 'axios';
 import routerNamespace from './router/routerNamespace';
 import SlideBar from '~/components/SlideBar/SlideBar.vue';
 import MusicPlayer from '~/components/MusicPlayer/MusicPlayer.vue';
@@ -20,16 +21,19 @@ import userPlayList from './composables/userPlayList';
 import useUserPlayListStore from './store/userPlayListStore';
 import useSlideBarStore from './store/slideBarStore';
 import { MenuConfigItemType } from './types/Menu/MenuConfigType';
+import useRecommendStore from './store/recommendStore';
+import postUrl from './axios/postUrl';
 
 const router = useRouter();
 const userStore = useUserStore();
 const userLikeListStore = useUserLikeListStore();
 const userPlayListStore = useUserPlayListStore();
 const slideBarStore = useSlideBarStore();
+const recommendStore = useRecommendStore();
 // get userLikeListStore+
-(function preload() {
+(async function preload() {
 	// getLoginStatus if login, set profile and account info to pinia.
-	getLoginStatus().then((res) => {
+	await getLoginStatus().then((res) => {
 		if (res !== null) {
 			userStore.account = res.account;
 			userStore.profile = res.profile;
@@ -38,6 +42,28 @@ const slideBarStore = useSlideBarStore();
 			}
 		}
 	});
+
+	const isLogin = userStore.account !== null && userStore.profile !== null;
+	if (isLogin) {
+		recommendStore.recommendMusicList = [];
+		axios.post(postUrl.getMusicRecommendLogin).then((res) => {
+			if (res.data.code === 200) {
+				recommendStore.recommendMusicList = res.data.recommend;
+			}
+			return null;
+		});
+	} else {
+		axios.post(postUrl.getMusicRecommend, null, {
+			params: {
+				limit: 20,
+			},
+		}).then((res) => {
+			if (res.data.code === 200) {
+				recommendStore.recommendMusicList = res.data.result;
+			}
+			return null;
+		});
+	}
 }());
 
 onMounted(() => {

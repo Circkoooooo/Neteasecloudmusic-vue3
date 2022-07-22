@@ -125,6 +125,12 @@ const changePlayList = () => {
 	playListStore.isShow = !playListStore.isShow;
 };
 
+const passivePause = () => {
+	isPlay.value = false;
+};
+const passivePlay = () => {
+	isPlay.value = true;
+};
 onMounted(() => {
 	loadStorage();
 	headBtn.value!.onmousedown = (startEvent: MouseEvent) => {
@@ -148,13 +154,6 @@ onMounted(() => {
 		};
 	};
 });
-
-const passivePause = () => {
-	isPlay.value = false;
-};
-const passivePlay = () => {
-	isPlay.value = true;
-};
 </script>
 
 <template>

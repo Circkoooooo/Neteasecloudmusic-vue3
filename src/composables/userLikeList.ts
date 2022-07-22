@@ -4,11 +4,13 @@ import useUserLikeListStore from '~/store/userLikeListStore';
 
 export default async (id: number) => {
 	if (!id) return;
+	const timestamp = new Date().getTime();
 	const userLikeListStore = useUserLikeListStore();
 	if (id === undefined) return;
 	await axios.post(postUrl.likelist, null, {
 		params: {
 			id,
+			timestamp,
 		},
 	}).then((res) => {
 		if (res.data.code === 200) {

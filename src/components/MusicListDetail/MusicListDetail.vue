@@ -12,7 +12,7 @@ import useMusicPlayerStore from '~/store/musicPlayerStore';
 
 const { replaceMusicList } = useMusicPlayerStore();
 const musicDetailStore = useMusicDetailStore();
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
 	playList?: DetailMusicPlayList;
 	songs: MusicInfo[];
 	isLoading: boolean;
@@ -20,6 +20,7 @@ withDefaults(defineProps<{
 
 const userDetail = computed(() => musicDetailStore.userDetail);
 const like = computed(() => musicDetailStore.isLikeList);
+const comSongs = computed(() => props.songs);
 </script>
 <template>
 	<div class="musiclist_detail">
@@ -67,7 +68,7 @@ const like = computed(() => musicDetailStore.isLikeList);
 			</div>
 			<!-- music -->
 			<div class="musiclistdetail_list">
-				<div v-for="(song, key) in songs"
+				<div v-for="(song, key) in comSongs"
 						:key="song.id">
 					<MusicItem :musicInfo="song"
 							:index="key + 1"

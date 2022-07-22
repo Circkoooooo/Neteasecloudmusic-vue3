@@ -7,7 +7,7 @@ import { MusicInfo } from '~/types/Music/MusicInfo';
 const musicDetailStore = useMusicDetailStore();
 const songs = computed<MusicInfo[]>(() => {
 	if (musicDetailStore.loadedListId !== musicDetailStore.loadingListId) {
-		return [];
+		return [] as MusicInfo[];
 	}
 	return musicDetailStore.songs;
 });

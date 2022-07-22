@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import './PlayList.less';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import usePlayListStore from '~/store/playListStore';
 import MusicItem from '../MusicItem/MusicItem.vue';
 import useMusicPlayerStore from '~/store/musicPlayerStore';
 
+const musicPlayerStore = useMusicPlayerStore();
 const playListStore = usePlayListStore();
 const isShow = computed(() => playListStore.isShow);
 const playList = ref<HTMLDivElement>();
-const { clearPlayList } = useMusicPlayerStore();
 
 document.onclick = (event: MouseEvent) => {
 	const target = event.target as HTMLElement;
@@ -26,6 +26,13 @@ document.onclick = (event: MouseEvent) => {
 };
 
 const songs = computed(() => playListStore.playList);
+watch(playListStore, () => {
+	if (playListStore.sortPlayList.length !== playListStore.playList.length) {
+		playListStore.sortPlayList = playListStore.playList;
+	}
+});
+
+const clearPlayList = computed(() => musicPlayerStore.clearPlayList);
 </script>
 
 <template>
@@ -37,6 +44,7 @@ const songs = computed(() => playListStore.playList);
 		<div class="playlist_btn">
 			<div class="clearall"
 					@click="clearPlayList">清空列表</div>
+			<div>当前歌曲序号：{{ playListStore.currentIndex + 1 }}</div>
 		</div>
 		<MusicItem v-for="(item, index) in songs"
 				:key="item.id"

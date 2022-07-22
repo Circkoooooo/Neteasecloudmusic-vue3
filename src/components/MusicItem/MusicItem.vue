@@ -5,9 +5,11 @@ import './listdetail-MusicItem.less';
 import './playlist-MusicItem.less';
 import useUserLikeListStore from '~/store/userLikeListStore';
 import useMusicPlayerStore from '~/store/musicPlayerStore';
+import usePlayListStore from '~/store/playListStore';
 
 const userLikeListStore = useUserLikeListStore();
-const { changeMusic } = useMusicPlayerStore();
+const playList = usePlayListStore();
+const musicPlayerStore = useMusicPlayerStore();
 
 const props = withDefaults(defineProps<{
 	index: number,
@@ -17,6 +19,15 @@ const props = withDefaults(defineProps<{
 
 const singer = computed(() => props.musicInfo.ar.map((item) => item.name).join('/'));
 const like = computed(() => userLikeListStore.likeList.includes(props.musicInfo.id));
+const isCurrent = computed(
+	() => {
+		if (playList.currentIndex === -1) {
+			return false;
+		}
+		return playList.playList[playList.currentIndex].id === props.musicInfo.id;
+	},
+);
+const changeMusic = computed(() => musicPlayerStore.changeMusic);
 </script>
 
 <template>
@@ -25,8 +36,14 @@ const like = computed(() => userLikeListStore.likeList.includes(props.musicInfo.
 			@dblclick="changeMusic(musicInfo.id)">
 		<div class="music_showlist">
 			<div class="number">
-				{{ index }}
+				<div class="number_num"
+						v-if="!isCurrent"> {{ index }}</div>
+				<div class="number_play"
+						v-else>
+					<img src="../../assets/play_now.png">
+				</div>
 			</div>
+
 			<div class="is_like">
 				<img src="../../assets/like.png"
 						v-if="like">

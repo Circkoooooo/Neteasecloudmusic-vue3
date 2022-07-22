@@ -5,7 +5,8 @@ const usePlayListStore = defineStore('playlistStore', {
 	state: () => ({
 		isShow: false,
 		playList: [] as MusicInfo[],
-		currentIndex: 0,
+		currentIndex: -1,
+		sortPlayList: [] as MusicInfo[],
 	}),
 });
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import './LoginModal.less';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import QRCode from 'qrcode';
 import getLoginStatus, { checkQrCode, getQrCode, getQrCodeKey } from '~/composables/login';
 import useLoginStore from '~/store/loginStore';
@@ -9,7 +9,6 @@ const loginStore = useLoginStore();
 const canvas = ref(null);
 
 let timer: any = null;
-
 const qrcode = () => {
 	if (loginStore.qrurl === null) return;
 	QRCode.toCanvas(canvas.value, loginStore.qrurl, {
@@ -18,11 +17,6 @@ const qrcode = () => {
 };
 
 const checkCode = async () => {
-	if (loginStore.status === 'close') {
-		if (timer !== null) {
-			clearInterval(timer);
-		}
-	}
 	if (loginStore.status === 'close' || loginStore.key === null) return;
 	const status = await checkQrCode(loginStore.key);
 	if (status.code === 800) loginStore.status = 'expired';
@@ -47,6 +41,11 @@ const updateCode = async () => {
 	}, 2000, false);
 };
 
+const closeModal = () => {
+	loginStore.status = 'close';
+	clearInterval(timer);
+};
+
 watch(loginStore, async () => {
 	if (loginStore.status === 'load') {
 		updateCode();
@@ -66,17 +65,6 @@ watch(loginStore, async () => {
 			}
 		});
 	}
-});
-
-const closeModal = () => {
-	loginStore.status = 'close';
-};
-
-onMounted(() => {
-	if (canvas.value === null) return;
-	QRCode.toCanvas(canvas.value, '还没有准备好，别急着扫码', {
-		width: 128,
-	});
 });
 </script>
 
