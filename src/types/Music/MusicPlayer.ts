@@ -6,6 +6,10 @@ type MusicPlayerStatus = {
 	musicDuration: number,
 	musicCurrentTime: number
 }
+export type MusicPlayerMode = {
+	modeEnum: ['心动', '顺序', '随机'],
+	modeIndex: number,
+}
 export type MusicPlayerType = {
 	isPlay: Ref<boolean>
 	isLoading: Ref<boolean>
@@ -15,10 +19,9 @@ export type MusicPlayerType = {
 		musicInfo: MusicInfo | null
 		musicPlayStatus: MusicPlayerStatus
 	},
-	saveMusicInfoStorage: () => void;
+	mode: Ref<MusicPlayerMode>,
 	getMusicInfoStorage: () => null | MusicInfo;
 	getMusicPlayStatusStorage: () => null | MusicPlayerStatus;
-	saveMusicPlayStatusStorage: () => void;
 	getMusicIdStorage: () => number;
 	saveMusicIdStorage: () => void;
 	play: () => void;
@@ -36,4 +39,5 @@ export type MusicPlayerType = {
 	addMusicList: (musicInfo: MusicInfo) => void;
 	replaceMusicList: (musicInfoList: MusicInfo[]) => void;
 	clearPlayList: () => void;
+	changeMod: () => void;
 }

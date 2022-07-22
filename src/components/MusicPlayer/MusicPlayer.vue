@@ -28,6 +28,7 @@ const {
 	changePlayStatusButton,
 	onTimeUpdate,
 	onEnded,
+	mode,
 	musicInfoObj,
 	getMusicInfoStorage,
 	getMusicPlayStatusStorage,
@@ -40,6 +41,7 @@ const {
 	addMusicList,
 	replaceMusicList,
 	clearPlayList,
+	changeMod,
 } = musicPlayer;
 
 // playerstore params
@@ -48,6 +50,7 @@ musicPlayerStore.replaceMusicList = replaceMusicList;
 musicPlayerStore.addMusicList = addMusicList;
 musicPlayerStore.changeMusic = changeMusic;
 musicPlayerStore.clearPlayList = clearPlayList;
+musicPlayerStore.changeMod = changeMod;
 
 (function loadStorageMusicInfoAndStatus() {
 	const data = getMusicInfoStorage();
@@ -116,6 +119,7 @@ const headBtnMove = (event: MouseEvent) => {
 
 const isLike = computed(() => userLikeListStore.likeList.includes(musicInfo.value.musicId));
 
+const currentMode = computed(() => mode.value.modeEnum[mode.value.modeIndex]);
 const changePlayList = () => {
 	if (isLoading.value) return;
 	playListStore.isShow = !playListStore.isShow;
@@ -145,13 +149,21 @@ onMounted(() => {
 	};
 });
 
+const passivePause = () => {
+	isPlay.value = false;
+};
+const passivePlay = () => {
+	isPlay.value = true;
+};
 </script>
 
 <template>
 	<div class="music_player">
 		<audio ref="audio"
 				@timeupdate="onTimeUpdate"
-				@ended="onEnded"></audio>
+				@ended="onEnded"
+				@pause="passivePause"
+				@play="passivePlay"></audio>
 		<div class="music_profile">
 			<div class="music_cover">
 				<img src="../../assets/logo.png"
@@ -177,8 +189,10 @@ onMounted(() => {
 				</a>
 			</div>
 		</div>
-		<!-- FIXME:播放按钮 的剩余按钮-->
 		<div class="music_button">
+			<!-- mode -->
+			<div class="mode"
+					@click="changeMod">{{ currentMode }}</div>
 			<div class="go_start"
 					@click="preMusic">
 				<img src="../../assets/go-start.png">

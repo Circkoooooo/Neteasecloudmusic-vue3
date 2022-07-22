@@ -9,7 +9,7 @@ import useMusicDetailStore from '~/store/musicDetailStore';
 import usePlayListStore from '~/store/playListStore';
 import useUserStore from '~/store/UserStore';
 import { MusicInfo } from '~/types/Music/MusicInfo';
-import { MusicPlayerType } from '~/types/Music/MusicPlayer';
+import { MusicPlayerMode, MusicPlayerType } from '~/types/Music/MusicPlayer';
 import saveUserLikeList from './saveUserLikeList';
 import userPlayList from './userPlayList';
 
@@ -24,6 +24,10 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 	const userStore = useUserStore();
 
 	const isLoading = ref(false);
+	const mode = ref<MusicPlayerMode>({
+		modeEnum: ['心动', '顺序', '随机'],
+		modeIndex: 1,
+	});
 	const musicInfoObj = reactive<{
 		musicUrl: string, // current music
 		musicId: number,
@@ -304,10 +308,17 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 		musicInfoObj.musicUrl = '';
 	};
 
+	const changeMod = () => {
+		mode.value.modeIndex = (mode.value.modeIndex + 1) % mode.value.modeEnum.length;
+	};
+
 	return {
 		isPlay,
 		isLoading,
 		musicInfoObj,
+		mode,
+		play,
+		saveMusicIdStorage,
 		loadMusic,
 		loadStorage,
 		onEnded,
@@ -325,6 +336,7 @@ const useMusicPlayer = (musicSource: Ref<HTMLAudioElement | null>): MusicPlayerT
 		addMusicList,
 		replaceMusicList,
 		clearPlayList,
+		changeMod,
 	} as MusicPlayerType;
 };
 
